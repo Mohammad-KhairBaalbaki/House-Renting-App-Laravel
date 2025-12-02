@@ -27,6 +27,7 @@ class RegisterRequest extends FormRequest
             'phone' => ['required', 'string', 'unique:users,phone'],
             'date_of_birth' => ['required', 'date'],
             'password' => ['required', 'string', 'confirmed', 'min:8', 'max:20'],
+            
         ];
     }
 

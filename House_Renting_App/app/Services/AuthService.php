@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class AuthService
 {
@@ -15,9 +16,15 @@ class AuthService
         //
     }
 
-    public function register(array $data)
+    public function register(array $data,$role)
     {
         $user = User::create($data);
+       
+    
+        if ($role) {
+            $user->assignRole($role);
+        }
+   
         $user = $user->fresh();
         $token = $user->createToken('api token')->plainTextToken;
         $user->access_token = $token;

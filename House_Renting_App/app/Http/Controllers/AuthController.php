@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\LoginResource;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -18,9 +19,9 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request,Role $role)
     {
-        $user = $this->authService->register($request->validated());
+        $user = $this->authService->register($request->validated(),$role);
         return $this->success(LoginResource::make($user), "User Created Successfully .", 201);
     }
     public function login(LoginRequest $request)

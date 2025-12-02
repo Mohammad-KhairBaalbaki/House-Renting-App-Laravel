@@ -20,7 +20,6 @@ class LoginResource extends JsonResource
             'last_name'=>$this->last_name,
             'phone'=>$this->phone,
             'date_of_birth'=>$this->date_of_birth,
-            'is_active'=>$this->is_active,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
             'access_token'=>$this->access_token
