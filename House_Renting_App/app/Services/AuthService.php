@@ -16,19 +16,24 @@ class AuthService
         //
     }
 
-    public function register(array $data,$role)
+    public function register(array $data)
     {
+        if(isset($data['role']))
+        {
+            $roleId = $data['role'];
+            unset($data['role']);
+        }
         $user = User::create($data);
-       
-    
+        $role = Role::findOrFail($roleId);
+
         if ($role) {
             $user->assignRole($role);
         }
-   
+
         $user = $user->fresh();
         $token = $user->createToken('api token')->plainTextToken;
         $user->access_token = $token;
-        return $user;
+        return $user->load('roles');
     }
 
     public function login(array $data)
@@ -46,6 +51,6 @@ class AuthService
         $user = Auth::user();
         $token = $user->createToken('api token')->plainTextToken;
         $user->access_token = $token;
-        return $user;
+        return $user->load('roles');
     }
 }

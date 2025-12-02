@@ -19,9 +19,9 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    public function register(RegisterRequest $request,Role $role)
+    public function register(RegisterRequest $request)
     {
-        $user = $this->authService->register($request->validated(),$role);
+        $user = $this->authService->register($request->validated());
         return $this->success(LoginResource::make($user), "User Created Successfully .", 201);
     }
     public function login(LoginRequest $request)
