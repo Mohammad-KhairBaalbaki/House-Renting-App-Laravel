@@ -14,9 +14,3 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
 });
 
-Route::get('testing',function(){
-    return true;
-    
-Route::get("branch",function(){
-dd("hello");
-});
