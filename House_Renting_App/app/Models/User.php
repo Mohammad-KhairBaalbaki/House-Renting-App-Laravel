@@ -45,6 +45,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function images(){
+        return $this->hasMany(UserImage::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *

@@ -21,6 +21,8 @@ class LoginResource extends JsonResource
             'phone'=>$this->phone,
             'role'=>$this->whenLoaded('roles',$this->roles->pluck('name')->first()),
             'date_of_birth'=>$this->date_of_birth,
+            'profile_image'=>$this->whenLoaded('images', ImageResource::make($this->images->where('type','profile_image')->first())),
+            'id_image'=>$this->whenLoaded('images', ImageResource::make($this->images->where('type','id_image')->first())),
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
             'access_token'=>$this->access_token

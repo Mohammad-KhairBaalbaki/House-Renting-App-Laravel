@@ -29,11 +29,30 @@ class AuthService
         if ($role) {
             $user->assignRole($role);
         }
+        if (isset($data['profile_image'])) {
+                $path = 'profile_images';
+                $file = $data['profile_image'];
+                $user->images()->create([
+                    'user_id' => $user->id,
+                    'url' => ImageService::uploadImage($file, $path),
+                    'type' => 'profile_image'
+                ]);
+        }
+
+        if (isset($data['id_image'])) {
+                $path = 'id_images';
+                $file = $data['id_image'];
+                $user->images()->create([
+                    'user_id' => $user->id,
+                    'url' => ImageService::uploadImage($file, $path),
+                    'type' => 'id_image'
+                ]);
+        }
 
         $user = $user->fresh();
         $token = $user->createToken('api token')->plainTextToken;
         $user->access_token = $token;
-        return $user->load('roles');
+        return $user->load('roles','images');
     }
 
     public function login(array $data)
@@ -51,6 +70,6 @@ class AuthService
         $user = Auth::user();
         $token = $user->createToken('api token')->plainTextToken;
         $user->access_token = $token;
-        return $user->load('roles');
+        return $user->load('roles','images');
     }
 }
