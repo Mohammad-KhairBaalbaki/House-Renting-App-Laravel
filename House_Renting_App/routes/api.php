@@ -14,6 +14,13 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
 });
 
+
 Route::get('test3',function(){
     return false;
 });
+
+
+Route::get('test1',function(){
+    return true;
+});
+
