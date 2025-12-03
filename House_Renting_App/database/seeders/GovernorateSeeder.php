@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\governorate;
+use App\Models\Governorate;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +15,7 @@ class GovernorateSeeder extends Seeder
     {
         $governorates = [
             ['en' => 'Damascus',          'ar' => 'دمشق'],
-            ['en' => 'Rural Damascus',    'ar' => 'ريف دمشق'],
+            ['en' => 'Rif Damascus',    'ar' => 'ريف دمشق'],
             ['en' => 'Aleppo',           'ar' => 'حلب'],
             ['en' => 'Homs',             'ar' => 'حمص'],
             ['en' => 'Hama',             'ar' => 'حماة'],
@@ -31,7 +31,7 @@ class GovernorateSeeder extends Seeder
         ];
 
         foreach ($governorates as $item) {
-            governorate::create([
+            Governorate::create([
                 'name' => $item,
             ]);
         }

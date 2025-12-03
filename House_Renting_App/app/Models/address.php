@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
-class address extends Model
+class Address extends Model
 {
     use HasTranslations;
     protected $fillable = [
@@ -16,5 +16,5 @@ class address extends Model
         "latitide"
     ];
     public array $translatable = ['street'];
-    
+
 }

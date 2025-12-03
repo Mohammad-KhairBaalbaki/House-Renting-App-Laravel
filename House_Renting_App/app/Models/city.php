@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
-class city extends Model
+class City extends Model
 {
-     use HasTranslations;
+    use HasTranslations;
 
     public array $translatable = ['name'];
-    protected $fillable = ["name","governorate_id"];
-public function governorate(){
-        return $this->belongsTo(governorate::class);
+    protected $fillable = ["name", "governorate_id"];
+    public function governorate()
+    {
+        return $this->belongsTo(Governorate::class);
     }
 }

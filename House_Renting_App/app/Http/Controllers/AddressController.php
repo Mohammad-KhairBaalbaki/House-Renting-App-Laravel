@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\address;
+use App\Models\Address;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
@@ -34,7 +34,7 @@ class AddressController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(address $address)
+    public function show(Address $address)
     {
         //
     }
@@ -42,7 +42,7 @@ class AddressController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(address $address)
+    public function edit(Address $address)
     {
         //
     }
@@ -50,7 +50,7 @@ class AddressController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, address $address)
+    public function update(Request $request, Address $address)
     {
         //
     }
@@ -58,7 +58,7 @@ class AddressController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(address $address)
+    public function destroy(Address $address)
     {
         //
     }
