@@ -14,8 +14,9 @@ class AddressResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        
+
           return [
+            'id'=>$this->id,
             'city'        => $this->whenLoaded('city', function () {
                 return $this->city->name;
             }),
@@ -30,6 +31,6 @@ class AddressResource extends JsonResource
             'latitide'    => $this->latitide,
         ];
 
-        
+
     }
 }

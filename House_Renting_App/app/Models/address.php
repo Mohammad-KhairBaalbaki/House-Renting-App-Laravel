@@ -15,7 +15,7 @@ class Address extends Model
         "longitude",
         "latitude",
         "street"
-        
+
     ];
 
     public array $translatable = ['street'];
@@ -26,10 +26,10 @@ class Address extends Model
         return $this->hasOne(House::class);
     }
 
-      public function city()
+    public function city()
     {
         return $this->belongsTo(City::class, 'city_id');
     }
-    
+
 
 }

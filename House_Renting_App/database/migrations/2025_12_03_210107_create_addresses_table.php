@@ -15,8 +15,8 @@ return new class extends Migration {
             $table->foreignId("city_id")->constrained("cities");
             $table->json("street");
             $table->integer("flat_number");
-            $table->float("longitide")->nullable();
-            $table->float("latitide")->nullable();
+            $table->float("longitude")->nullable();
+            $table->float("latitude")->nullable();
             $table->timestamps();
         });
     }
