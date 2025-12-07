@@ -2,64 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateAddressRequest;
+use App\Http\Requests\UpdateAddressRequest;
+use App\Http\Resources\AddressResource;
 use App\Models\address;
+use App\Services\AddressService;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $addressService;
+    public function __construct(AddressService $addressService)
     {
-        //
+        $this->addressService = $addressService;
+    }
+    public function index(Address $address)
+
+    {
+          $address= $this->addressService->index($address);
+        return new AddressResource($address);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(CreateAddressRequest $request)
     {
-        //
+        $address= $this->addressService->create($request->validated());
+        return $this->success(new AddressResource($address));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+      public function update(UpdateAddressRequest $request,Address $address)
     {
-        //
+        $address= $this->addressService->update($request->validated(),$address);
+        return $this->success(new AddressResource($address));
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(address $address)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(address $address)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, address $address)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(address $address)
-    {
-        //
-    }
+    
 }
