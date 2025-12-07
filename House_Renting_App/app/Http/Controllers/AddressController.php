@@ -17,9 +17,8 @@ class AddressController extends Controller
         $this->addressService = $addressService;
     }
     public function index(Address $address)
-
     {
-          $address= $this->addressService->index($address);
+        $address = $this->addressService->index($address);
         return new AddressResource($address);
     }
 
@@ -28,14 +27,14 @@ class AddressController extends Controller
      */
     public function create(CreateAddressRequest $request)
     {
-        $address= $this->addressService->create($request->validated());
+        $address = $this->addressService->create($request->validated());
         return $this->success(new AddressResource($address));
     }
 
-      public function update(UpdateAddressRequest $request,Address $address)
+    public function update(UpdateAddressRequest $request, Address $address)
     {
-        $address= $this->addressService->update($request->validated(),$address);
+        $address = $this->addressService->update($request->validated(), $address);
         return $this->success(new AddressResource($address));
     }
-    
+
 }

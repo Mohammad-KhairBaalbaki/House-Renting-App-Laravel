@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
-use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +20,6 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::get("/{address}",[AddressController::class,"index"]);
         Route::post("/",[AddressController::class,"create"]);
         Route::put("/{address}",[AddressController::class,"update"]);
-
     });
 
 
