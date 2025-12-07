@@ -5,16 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
-class address extends Model
+class Address extends Model
 {
     use HasTranslations;
     protected $fillable = [
-        "cities_id",
+        "city_id",
         "street",
         "flat_number",
-        "longitide",
-        "latitide"
+        "longitude",
+        "latitude",
+        "street"
+        
     ];
+
     public array $translatable = ['street'];
 
 
@@ -22,4 +25,11 @@ class address extends Model
     {
         return $this->hasOne(House::class);
     }
+
+      public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
+    
+
 }
