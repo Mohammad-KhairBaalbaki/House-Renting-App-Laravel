@@ -31,10 +31,21 @@ class User extends Authenticatable
     protected $attributes = [
         'status_id' => 1,
     ];
-     public function status()
+    public function status()
     {
         return $this->belongsTo(Status::class);
     }
+
+    public function houses()
+    {
+        return $this->hasMany(House::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(UserImage::class);
+    }
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -45,9 +56,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function images(){
-        return $this->hasMany(UserImage::class);
-    }
+
+
 
     /**
      * Get the attributes that should be cast.

@@ -9,17 +9,27 @@ class Address extends Model
 {
     use HasTranslations;
     protected $fillable = [
-        "cities_id",
+        "city_id",
         "street",
         "flat_number",
-        "longitide",
-        "latitide",
-        'street'
+        "longitude",
+        "latitude",
+        "street"
         
     ];
+
+    public array $translatable = ['street'];
+
+
+    public function house()
+    {
+        return $this->hasOne(House::class);
+    }
+
       public function city()
     {
-        return $this->belongsTo(City::class, 'cities_id');
+        return $this->belongsTo(City::class, 'city_id');
     }
     
+
 }
