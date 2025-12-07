@@ -32,3 +32,14 @@ Route::middleware('auth:sanctum')->group(function(){
 
 
 
+
+
+Route::get('test3',function(){
+    return false;
+});
+
+
+Route::get('test1',function(){
+    return true;
+});
+
