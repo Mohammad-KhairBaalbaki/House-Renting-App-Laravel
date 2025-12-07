@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HouseController;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -13,6 +14,12 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login');
     Route::post('/register', 'register');
 });
-Route::get("branch",function(){
-dd("hello");
+
+
+Route::prefix('houses')->controller(HouseController::class)->middleware('auth:sanctum')->group(function () {
+    Route::get('/', 'index')->withoutMiddleware('auth:sanctum');
+    Route::post('/', 'store')->middleware('role:owner');
+    Route::get('/{id}', 'show')->withoutMiddleware('auth:sanctum');;
+    Route::put('/{id}', 'update')->middleware('role:owner');
+    Route::delete('/{id}', 'destroy')->middleware('role:owner');
 });

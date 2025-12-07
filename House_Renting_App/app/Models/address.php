@@ -16,5 +16,10 @@ class address extends Model
         "latitide"
     ];
     public array $translatable = ['street'];
-    
+
+
+    public function house()
+    {
+        return $this->hasOne(House::class);
+    }
 }
