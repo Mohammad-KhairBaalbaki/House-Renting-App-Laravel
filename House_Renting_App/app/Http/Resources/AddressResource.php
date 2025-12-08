@@ -14,22 +14,17 @@ class AddressResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        
-          return [
-            'city'        => $this->whenLoaded('city', function () {
-                return $this->city->name;
-            }),
 
-            'governorate' => $this->whenLoaded('city', function () {
-                return $this->city->governorate->name;
-            }),
-
-            'street'      => $this->street,
+        return [
+            'id' => $this->id,
+            'city' => $this->whenLoaded('city', CityResource::make($this->city)),
+            'governorate' => $this->whenLoaded('city.governorate', GovernorateResource::make($this->city->governorate)),
+            'street' => $this->street,
             'flat_number' => $this->flat_number,
-            'longitide'   => $this->longitide,
-            'latitide'    => $this->latitide,
+            'longitude' => $this->longitude,
+            'latitude' => $this->latitude,
         ];
 
-        
+
     }
 }

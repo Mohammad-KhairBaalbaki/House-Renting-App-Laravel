@@ -11,13 +11,13 @@ class AddressService
      */
     public function __construct()
     {
-        
+
     }
     public function index($address){
         $address->get();
         return $address->load("city.governorate");
     }
-    public function create($request){
+    public function create( $request){
         $address= Address::create($request);
         return $address->load("city.governorate");
     }

@@ -22,12 +22,12 @@ class CreateAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-       "cities_id"=>"required|exists:cities,id|",
-        "street"=>"required|string",
-        "flat_number"=>"required|string",
-        "longitide"=>"integer|nullable",
-        "latitide"=>"integer|nullable",
-        'street'=>"required|string"
+            "city_id" => "required|exists:cities,id|",
+            "street" => "required|string",
+            "flat_number" => "required|string",
+            "longitude" => "integer|nullable",
+            "latitude" => "integer|nullable",
+            'street' => "required|string"
         ];
     }
 }

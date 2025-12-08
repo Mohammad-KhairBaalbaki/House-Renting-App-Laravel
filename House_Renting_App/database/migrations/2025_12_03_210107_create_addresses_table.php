@@ -12,11 +12,11 @@ return new class extends Migration {
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("cities_id")->constrained("cities");
-            $table->json("street");
-            $table->integer("flat_number");
-            $table->float("longitide")->nullable();
-            $table->float("latitide")->nullable();
+            $table->foreignId("city_id")->constrained("cities");
+            $table->string("street");
+            $table->string("flat_number");
+            $table->float("longitude")->nullable();
+            $table->float("latitude")->nullable();
             $table->timestamps();
         });
     }
