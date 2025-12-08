@@ -20,7 +20,8 @@ class HouseService
 
     public function index()
     {
-        //
+        $houses = House::with('address.city.governorate')->where('is_active', true)->where('status_id', 2)->get();
+        return $houses;
     }
 
     public function store(array $data)
