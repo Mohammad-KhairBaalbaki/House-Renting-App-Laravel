@@ -7,18 +7,19 @@ use Spatie\Translatable\HasTranslations;
 
 class City extends Model
 {
-     use HasTranslations;
+    use HasTranslations;
 
     public array $translatable = ['name'];
-    protected $fillable = ["name","governorate_id"];
-       protected $casts = [
+    protected $fillable = ["name", "governorate_id"];
+    protected $casts = [
         'name' => 'array',
     ];
-public function governorate(){
+    public function governorate()
+    {
         return $this->belongsTo(Governorate::class);
     }
-       public function addresses()
+    public function addresses()
     {
-        return $this->hasMany(Address::class, 'cities_id');
+        return $this->hasMany(Address::class, 'city_id');
     }
 }

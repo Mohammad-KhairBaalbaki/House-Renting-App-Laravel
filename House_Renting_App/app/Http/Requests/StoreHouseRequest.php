@@ -24,17 +24,18 @@ class StoreHouseRequest extends FormRequest
         return [
             'governorate_id' => 'required|exists:governorates,id',
             'city_id'        => 'nullable|exists:cities,id',
-            'new_city'       => 'string',
             'street'         => 'required|string',
             'flat_number'    => 'required|string',
-            'longitude'      => 'nullable|numeric',
-            'latitude'       => 'nullable|numeric',
+            'longitude'      => 'nullable',
+            'latitude'       => 'nullable',
             'title'          => 'nullable|string',
             'description'    => 'nullable|string',
             'rent_value'     => 'required|numeric',
             'rooms'          => 'required|integer',
             'space'          => 'required|numeric',
             'notes'          => 'nullable|string',
+            'house_images'   => 'required|array',
+            'house_images.*' => 'required|image|mimes:jpeg,png,jpg,svg',
         ];
     }
 }

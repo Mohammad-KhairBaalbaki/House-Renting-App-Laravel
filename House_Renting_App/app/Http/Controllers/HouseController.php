@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreHouseRequest;
+use App\Http\Resources\HouseResource;
 use App\Services\HouseService;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class HouseController extends Controller
     public function store(StoreHouseRequest $request)
     {
         $data = $this->houseService->store($request->validated());
-        return $this->success($data,'House created successfully',201);
+        return $this->success(HouseResource::make($data),'House created successfully',201);
     }
 
     public function show()

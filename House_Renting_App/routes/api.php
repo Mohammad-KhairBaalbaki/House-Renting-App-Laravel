@@ -20,23 +20,20 @@ Route::controller(AuthController::class)->group(function () {
 Route::prefix('houses')->controller(HouseController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('/', 'index')->withoutMiddleware('auth:sanctum');
     Route::post('/', 'store')->middleware('role:owner');
-    Route::get('/{id}', 'show')->withoutMiddleware('auth:sanctum');;
+    Route::get('/{id}', 'show')->withoutMiddleware('auth:sanctum');
+    ;
     Route::put('/{id}', 'update')->middleware('role:owner');
     Route::delete('/{id}', 'destroy')->middleware('role:owner');
-  });
-Route::middleware('auth:sanctum')->group(function(){
+});
+Route::middleware('auth:sanctum')->group(function () {
 
 
-    Route::prefix("address")->middleware("role:owner")->group(function(){
-        Route::get("/{address}",[AddressController::class,"index"]);
-        Route::post("/",[AddressController::class,"create"]);
-        Route::put("/{address}",[AddressController::class,"update"]);
-    
+    Route::prefix("address")->middleware("role:owner")->group(function () {
+        Route::get("/{address}", [AddressController::class, "index"]);
+        Route::post("/", [AddressController::class, "create"]);
+        Route::put("/{address}", [AddressController::class, "update"]);
 
-
-
-
-
+    });
 });
 
 

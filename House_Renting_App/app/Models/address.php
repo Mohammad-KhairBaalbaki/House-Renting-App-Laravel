@@ -14,11 +14,7 @@ class Address extends Model
         "flat_number",
         "longitude",
         "latitude",
-        "street"
-
     ];
-
-    public array $translatable = ['street'];
 
 
     public function house()
