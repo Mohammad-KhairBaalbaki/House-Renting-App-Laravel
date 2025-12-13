@@ -103,13 +103,6 @@ class HouseService
 
     public function store(array $data)
     {
-        if (!isset($data['city_id'])) {
-            $city = City::create([
-                'name' => 'UnKnown',
-                'governorate_id' => $data['governorate_id'],
-            ]);
-            $data['city_id'] = $city->id;
-        }
         $address = [
             'city_id' => $data['city_id'],
             'street' => $data['street'],
