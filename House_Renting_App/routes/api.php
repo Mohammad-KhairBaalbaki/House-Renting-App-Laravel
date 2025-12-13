@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\changeLanguageController;
 use App\Http\Controllers\HouseController;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login');
     Route::post('/register', 'register');
 });
+Route::get("changeLanguage",[changeLanguageController::class,"changeLanguage"]);
 
 
 Route::prefix('houses')->controller(HouseController::class)->middleware('auth:sanctum')->group(function () {
