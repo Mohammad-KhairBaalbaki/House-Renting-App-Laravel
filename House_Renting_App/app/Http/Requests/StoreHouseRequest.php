@@ -23,7 +23,7 @@ class StoreHouseRequest extends FormRequest
     {
         return [
             'governorate_id' => 'required|exists:governorates,id',
-            'city_id'        => 'nullable|exists:cities,id',
+            'city_id'        => 'required|exists:cities,id',
             'street'         => 'required|string',
             'flat_number'    => 'required|string',
             'longitude'      => 'nullable',
