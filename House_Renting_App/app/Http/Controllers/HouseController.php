@@ -15,9 +15,9 @@ class HouseController extends Controller
     {
         $this->houseService = $houseService;
     }
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->houseService->index();
+        $data = $this->houseService->index($request);
         return $this->success(HouseResource::collection($data),'Houses retrieved successfully',200);
     }
 
