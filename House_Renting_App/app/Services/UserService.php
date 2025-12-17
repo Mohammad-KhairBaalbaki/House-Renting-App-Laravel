@@ -17,20 +17,24 @@ class UserService
     }
     public function show()
     {
-        $user=User::where("id",Auth::id())->first();
+        $user = User::where("id", Auth::id())->first();
         return $user->load('roles');
     }
-    public function update(array $request){
-        $user=User::where("id",Auth::id())->first();
+    public function update(array $request)
+    {
+        $user = User::where("id", Auth::id())->first();
         $user->update($request);
 
         if (isset($request['profile_image'])) {
-            foreach ($user->images as $img) {
-                Storage::disk('public')->delete($img->url);
-            }
-            $user->images()->delete();
+            $oldUrl = $user->images()->where('type', 'profile_image')->first();
+            if ($oldUrl)
+                Storage::disk('public')->delete($oldUrl);
 
-         if (isset($request['profile_image'])) {
+            $user->images()
+                ->where('type', 'profile_image')
+                ->delete();
+
+            if (isset($request['profile_image'])) {
                 $path = 'profile_images';
                 $file = $request['profile_image'];
                 $user->images()->create([
@@ -38,15 +42,15 @@ class UserService
                     'url' => ImageService::uploadImage($file, $path),
                     'type' => 'profile_image'
                 ]);
+            }
         }
-        }
-        return $user->load('roles','images');
+        return $user->load('roles', 'images');
     }
-    public function delete( )
+    public function delete()
     {
-                $user=User::where("id",Auth::id())->first();
-                $user->tokens()->delete();
-                return $user->delete();
+        $user = User::where("id", Auth::id())->first();
+        $user->tokens()->delete();
+        return $user->delete();
 
 
     }

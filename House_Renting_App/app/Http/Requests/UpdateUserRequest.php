@@ -22,9 +22,9 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-              'first_name' => ['sometimes', 'string'],
+            'first_name' => ['sometimes', 'string'],
             'last_name' => ['sometimes', 'string'],
-            'phone' => ['sometimes', 'string', 'unique:users,phone'],
+            'phone' => ['sometimes', 'string', 'unique:users,phone,'.$this->user()->id],
             'date_of_birth' => ['sometimes', 'date'],
             'password' => ['sometimes', 'string', 'confirmed', 'min:8', 'max:20'],
             'profile_image'=>[ "sometimes",'file', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
