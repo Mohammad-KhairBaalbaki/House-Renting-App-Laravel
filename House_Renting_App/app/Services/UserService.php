@@ -27,7 +27,7 @@ class UserService
 
         if (isset($request['profile_image'])) {
             $oldUrl = $user->images()->where('type', 'profile_image')->first();
-            if ($oldUrl)
+            if (isset($oldUrl))
                 Storage::disk('public')->delete($oldUrl);
 
             $user->images()

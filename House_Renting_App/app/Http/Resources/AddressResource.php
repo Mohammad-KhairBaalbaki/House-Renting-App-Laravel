@@ -17,12 +17,8 @@ class AddressResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'city' => $this->whenLoaded('city', function () {
-                return CityResource::make($this->city);
-            }),
-            'governorate' => $this->whenLoaded('city.governorate', function () {
-                return GovernorateResource::make($this->city->governorate);
-            }),
+            'city' => $this->whenLoaded('city', CityResource::make($this->city)),
+            'governorate' => $this->whenLoaded('city.governorate', GovernorateResource::make($this->city->governorate)),
             'street' => $this->street,
             'flat_number' => $this->flat_number,
             'longitude' => $this->longitude,
