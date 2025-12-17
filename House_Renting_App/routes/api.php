@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\changeLanguageController;
 use App\Http\Controllers\HouseController;
+use App\Http\Middleware\CheckUserActiveMiddleware;
 use App\Http\Controllers\UserController;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
@@ -28,18 +29,20 @@ Route::prefix("profile")->middleware("auth:sanctum")->group(function () {
 
 
 });
+Route::get("changeLanguage", [changeLanguageController::class, "changeLanguage"]);
 
 
-Route::prefix('houses')->controller(HouseController::class)->middleware('auth:sanctum')->group(function () {
-    Route::get('/', 'index')->withoutMiddleware('auth:sanctum');
-    Route::post('/', 'store')->middleware('role:owner');
-    Route::get('/{id}', 'show')->withoutMiddleware('auth:sanctum');
-    ;
-    Route::put('/{id}', 'update')->middleware('role:owner');
-    Route::delete('/{id}', 'destroy')->middleware('role:owner');
-});
+
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::prefix('houses')->controller(HouseController::class)->middleware('auth:sanctum')->group(function () {
+        Route::get('/my-houses', 'myHouses')->middleware('role:owner');
+        Route::get('/', 'index')->withoutMiddleware('auth:sanctum');
+        Route::post('/', 'store')->middleware(['role:owner',CheckUserActiveMiddleware::class]);
+        Route::get('/{id}', 'show')->withoutMiddleware('auth:sanctum');
+        Route::put('/{id}', 'update')->middleware('role:owner');
+        Route::delete('/{id}', 'destroy')->middleware('role:owner');
+    });
 
     Route::prefix("address")->middleware("role:owner")->group(function () {
         Route::get("/{address}", [AddressController::class, "index"]);

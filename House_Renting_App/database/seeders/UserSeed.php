@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -25,6 +24,7 @@ class UserSeed extends Seeder
             "phone" => "0943675436",
             "password" => Hash::make("12345678"),
             "date_of_birth" => "2000-01-01",
+            "status_id"=>2
         ]);
 
         $renter = User::create([
