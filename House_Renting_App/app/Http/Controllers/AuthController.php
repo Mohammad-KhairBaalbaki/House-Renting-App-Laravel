@@ -34,4 +34,10 @@ class AuthController extends Controller
         }
         return $this->success(LoginResource::make($user), $message, 200);
     }
+    public function logout(Request $request)
+    {
+          $request->user()->tokens()->delete();
+                  return $this->success("", " logout Successfully .", 201);
+
+    }
 }
