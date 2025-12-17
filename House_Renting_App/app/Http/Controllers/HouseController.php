@@ -21,6 +21,10 @@ class HouseController extends Controller
         return $this->success(HouseResource::collection($data),'Houses retrieved successfully',200);
     }
 
+    public function myHouses(){
+        $data = $this->houseService->myHouses();
+        return $this->success(HouseResource::collection($data),'Houses retrieved successfully',200);
+    }
     public function store(StoreHouseRequest $request)
     {
         $data = $this->houseService->store($request->validated());

@@ -55,7 +55,7 @@ class HouseService
             });
         }
         if ($Rent = $request->input('rent')) {
-            $houses->where('rent_value',  $Rent);
+            $houses->where('rent_value', $Rent);
         }
         if ($minRent = $request->input('min_rent')) {
             $houses->where('rent_value', '>=', $minRent);
@@ -98,6 +98,20 @@ class HouseService
         //  $houses = $houses->paginate(5);
 
         return $houses->paginate(5);
+    }
+
+    public function myHouses()
+    {
+        $houses = House::query()
+                ->where('user_id', Auth::id())
+                ->with([
+                    'address.city.governorate',
+                    'status',
+                    'images',
+                ])
+                ->get();
+                return $houses;
+
     }
 
 
