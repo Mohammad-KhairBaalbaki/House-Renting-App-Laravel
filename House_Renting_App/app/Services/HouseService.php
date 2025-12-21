@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\City;
 use App\Models\House;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class HouseService
 {
@@ -153,9 +153,60 @@ class HouseService
         //
     }
 
-    public function update()
+    public function update(House $house, array $data)
     {
-        //
+        $addressData = [];
+        if (array_key_exists('city_id', $data)) {
+            $addressData['city_id'] = $data['city_id'];
+        }
+        if (array_key_exists('street', $data)) {
+            $addressData['street'] = $data['street'];
+        }
+        if (array_key_exists('flat_number', $data)) {
+            $addressData['flat_number'] = $data['flat_number'];
+        }
+        if (array_key_exists('longitude', $data)) {
+            $addressData['longitude'] = $data['longitude'];
+        }
+        if (array_key_exists('latitude', $data)) {
+            $addressData['latitude'] = $data['latitude'];
+        }
+
+        if (!empty($addressData) && $house->address) {
+            $this->addressService->update($addressData, $house->address);
+        }
+
+        $houseData = $data;
+        unset(
+            $houseData['governorate_id'],
+            $houseData['city_id'],
+            $houseData['street'],
+            $houseData['flat_number'],
+            $houseData['longitude'],
+            $houseData['latitude'],
+            $houseData['house_images']
+        );
+
+        $houseData['status_id'] = 1;
+        if (!empty($houseData)) {
+            $house->update($houseData);
+        }
+
+        if (isset($data['house_images'])) {
+            $existingImages = $house->images()->get();
+            foreach ($existingImages as $image) {
+                Storage::disk('public')->delete($image->url);
+            }
+            $house->images()->delete();
+
+            foreach ($data['house_images'] as $image) {
+                $house->images()->create([
+                    'url' => ImageService::uploadImage($image, 'houses'),
+                ]);
+            }
+        }
+
+        return $house->fresh()->load('user', 'address.city.governorate', 'status', 'images');
     }
 
     public function destroy()
