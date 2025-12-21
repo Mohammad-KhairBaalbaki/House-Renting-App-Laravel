@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\GovernorateResource;
 use App\Models\city;
+use App\Models\Governorate;
 use Illuminate\Http\Request;
 
 class CityController extends Controller
@@ -10,10 +12,7 @@ class CityController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-    }
+   
 
     /**
      * Show the form for creating a new resource.
