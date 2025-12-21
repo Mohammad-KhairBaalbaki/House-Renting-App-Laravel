@@ -5,6 +5,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -28,6 +29,20 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
+            // For API routes - return JSON
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Record not found.',
+                    'data' => null,
+                ], 404);
+            }
+
+            // For web routes - return custom view
+            // return response()->view('errors.404', [
+            //     'message' => 'Page not found',
+            // ], 404);
+        });
         $exceptions->render(function (UnauthorizedException $e, Request $request) {
             if ($request->expectsJson()) {
                 return response()->json([
