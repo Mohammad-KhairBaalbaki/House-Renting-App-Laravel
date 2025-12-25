@@ -9,3 +9,25 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+.field-lg .input-group-text{
+  padding-inline: 18px;
+  font-size: 18px;
+}
+
+.field-lg .form-control{
+  padding: 18px 14px;
+  font-size: 18px;
+}
+
+.btn-lg-soft{
+  padding: 16px 18px;
+  font-size: 18px;
+}
+.login-wrap{
+  padding-top: 90px;   
+}
+.admin-auth-bg input.form-control{
+  direction: ltr;
+  text-align: left;
+}
+
