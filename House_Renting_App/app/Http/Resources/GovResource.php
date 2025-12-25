@@ -17,13 +17,14 @@ class GovResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-           'cities' => $this->whenLoaded('cities', function () {
-            return $this->cities->map(function ($city) {
-                return [
-                    'id' => $city->id,
-                    'name' => $city->name,
-                ];
-            });
-        }),
-    ];
-}}
+            'cities' => $this->whenLoaded('cities', function () {
+                return $this->cities->map(function ($city) {
+                    return [
+                        'id' => $city->id,
+                        'name' => $city->name,
+                    ];
+                });
+            }),
+        ];
+    }
+}

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\House;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class HouseService
@@ -20,7 +21,8 @@ class HouseService
 
     public function index($request)
     {
-        $houses = House::with('address.city.governorate')
+        $userId = $request->user('sanctum')?->id; // or auth('sanctum')->id()
+        $houses = House::with('address.city.governorate', 'reviews', 'images', 'favorites')
             ->where('is_active', true)
             ->where('status_id', 2);
 
@@ -81,7 +83,13 @@ class HouseService
             $houses->where('rooms', $rooms);
         }
 
-        $allowedSorts = ['rent_value', 'space', 'rooms', 'created_at'];
+        if ($userId) {
+            $houses->withExists([
+                'favorites as is_favourite' => fn($q) => $q->where('user_id', $userId),
+            ]);
+        } 
+
+        $allowedSorts = ['rate', 'rent_value', 'space', 'rooms', 'created_at'];
         $sortBy = $request->input('sort_by', 'created_at');
         $sortDir = $request->input('sort_dir', 'desc');
 
@@ -93,24 +101,27 @@ class HouseService
             $sortDir = 'desc';
         }
 
-        $houses->orderBy($sortBy, $sortDir);
-
-        //  $houses = $houses->paginate(5);
-
+        if ($sortBy === 'rate') {
+            $houses->withAvg('reviews as avg_rating', 'rating')
+                ->orderByRaw('COALESCE(avg_rating, 0) ' . strtoupper($sortDir));
+        } else {
+            $houses->orderBy($sortBy, $sortDir);
+        }
         return $houses->paginate(5);
     }
 
     public function myHouses()
     {
         $houses = House::query()
-                ->where('user_id', Auth::id())
-                ->with([
-                    'address.city.governorate',
-                    'status',
-                    'images',
-                ])
-                ->get();
-                return $houses;
+            ->where('user_id', Auth::id())
+            ->with([
+                'address.city.governorate',
+                'status',
+                'images',
+                'favorites'
+            ])
+            ->get();
+        return $houses;
 
     }
 
@@ -121,9 +132,13 @@ class HouseService
             'city_id' => $data['city_id'],
             'street' => $data['street'],
             'flat_number' => $data['flat_number'],
-            'longitude' => $data['longitude'],
-            'latitude' => $data['latitude'],
+
         ];
+
+        if (isset($data['longitude']) && isset($data['latitude'])) {
+            $address['longitude'] = $data['longitude'];
+            $address['latitude'] = $data['latitude'];
+        }
 
         $address = $this->addressService->create($address);
         unset($data['governorate_id'], $data['city_id'], $data['street'], $data['flat_number'], $data['longitude'], $data['latitude']);
@@ -144,7 +159,8 @@ class HouseService
             }
         }
         $house = $house->fresh();
-        return $house->load('user', 'address', 'status');
+        $house->load(['user', 'address.city.governorate', 'status', 'favorites']);
+        return;
 
     }
 

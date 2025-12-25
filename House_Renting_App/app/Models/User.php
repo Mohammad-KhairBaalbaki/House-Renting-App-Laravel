@@ -45,7 +45,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserImage::class);
     }
-    
+
+    public function reservations(){
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
+
+    public function favorites(){
+        return $this->hasMany(Favorite::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

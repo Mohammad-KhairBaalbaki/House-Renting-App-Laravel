@@ -19,10 +19,10 @@ class UserResource extends JsonResource
             'first_name'=>$this->first_name,
             'last_name'=>$this->last_name,
             'phone'=>$this->phone,
-            'role'=>$this->whenLoaded('roles',$this->roles->pluck('name')->first()),
+            'role'=>$this->whenLoaded('roles',fn()=>$this->roles->pluck('name')->first()),
             'date_of_birth'=>$this->date_of_birth,
-            'profile_image'=>$this->whenLoaded('images', ImageResource::make($this->images->where('type','profile_image')->first())),
-            'id_image'=>$this->whenLoaded('images', ImageResource::make($this->images->where('type','id_image')->first())),
+            'profile_image'=>$this->whenLoaded('images', fn()=>ImageResource::make($this->images->where('type','profile_image')->first())),
+            'id_image'=>$this->whenLoaded('images', fn()=>ImageResource::make($this->images->where('type','id_image')->first())),
             // 'created_at'=>$this->created_at,
             // 'updated_at'=>$this->updated_at,
         ];
