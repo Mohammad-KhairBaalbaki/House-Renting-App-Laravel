@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserService
@@ -22,7 +23,13 @@ class UserService
     }
     public function update(array $request)
     {
+        $password=$request["current_password"];
         $user = User::where("id", Auth::id())->first();
+        
+         if (isset($request['new_password']) && $request['new_password']) {
+        $request['password'] = Hash::make($request['new_password']);
+        unset($request['new_password']);
+    }
         $user->update($request);
 
         if (isset($request['profile_image'])) {
@@ -46,7 +53,7 @@ class UserService
         }
         return $user->load('roles', 'images');
     }
-    public function delete()
+    public function delete($request)
     {
         $user = User::where("id", Auth::id())->first();
         $user->tokens()->delete();

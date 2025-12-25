@@ -18,7 +18,11 @@ class Status extends Model
     {
         return $this->hasMany(User::class);
     }
-    
+
+    public function reservations(){
+        return $this->hasMany(Reservation::class);
+    }
+
 }
 
 

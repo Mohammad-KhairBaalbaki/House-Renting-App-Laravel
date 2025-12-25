@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -25,8 +26,8 @@ class UserController extends Controller
         return $this->success(new UserResource($user));
 
     }
-    public function delete(){
-        $user=$this->userservice->delete();
+    public function delete(DeleteUserRequest $request){
+        $user=$this->userservice->delete($request);
         return $this->success("","deleted succes");
 
     }
