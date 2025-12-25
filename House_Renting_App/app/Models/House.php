@@ -54,4 +54,8 @@ class House extends Model
     public function favorites(){
         return $this->hasMany(Favorite::class);
     }
+    public function firstImage()
+    {
+        return $this->hasOne(HouseImage::class)->orderBy('id');
+}
 }

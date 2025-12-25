@@ -83,4 +83,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function profileImage()
+{
+    return $this->hasOne(UserImage::class)->where('type', 'profile_image');
+}
+
+public function idImage()
+{
+    return $this->hasOne(UserImage::class)->where('type', 'id_image');
+}
+
 }
