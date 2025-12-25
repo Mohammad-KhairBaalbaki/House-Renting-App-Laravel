@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class GovernorateController extends Controller
 {
-     public function index()
+    public function index()
     {
-        $gov=Governorate::with("cities")->get();
-        return $this->success( GovResource::collection($gov)) ;
+        $gov = Governorate::with("cities")->get();
+        return $this->success(GovResource::collection($gov));
     }
 }

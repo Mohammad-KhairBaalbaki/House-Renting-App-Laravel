@@ -4,8 +4,11 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\changeLanguageController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\GovernorateController;
 use App\Http\Controllers\HouseController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Middleware\CheckUserActiveMiddleware;
 use App\Http\Controllers\UserController;
 use Illuminate\Container\Attributes\Auth;
@@ -22,7 +25,6 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/logout', 'logout')->middleware("auth:sanctum");
 
 });
-Route::get("changeLanguage", [changeLanguageController::class, "changeLanguage"]);
 
 Route::prefix("profile")->middleware("auth:sanctum")->group(function () {
     Route::get("/", [UserController::class, "index"]);
@@ -38,12 +40,12 @@ Route::get("changeLanguage", [changeLanguageController::class, "changeLanguage"]
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('houses')->controller(HouseController::class)->middleware('auth:sanctum')->group(function () {
-        Route::get('/my-houses', 'myHouses')->middleware('role:owner');
+        Route::get('/my-houses', 'myHouses')->middleware(['role:owner', CheckUserActiveMiddleware::class]);
         Route::get('/', 'index')->withoutMiddleware('auth:sanctum');
         Route::post('/', 'store')->middleware(['role:owner', CheckUserActiveMiddleware::class]);
         Route::get('/{id}', 'show')->withoutMiddleware('auth:sanctum');
-        Route::put('/{house}', 'update')->middleware('role:owner');
-        Route::delete('/{id}', 'destroy')->middleware('role:owner');
+        Route::put('/{house}', 'update')->middleware(['role:owner', CheckUserActiveMiddleware::class]);
+        Route::delete('/{id}', 'destroy')->middleware(['role:owner', CheckUserActiveMiddleware::class]);
     });
 
     Route::prefix("address")->middleware("role:owner")->group(function () {
@@ -56,6 +58,37 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix("governorates")->group(function () {
         Route::get("/",[GovernorateController::class,"index"]);
         });
+
+    Route::prefix('reservations')->group(function ()  {
+        //all reservations
+        Route::get('/',[ReservationController::class,'index']);
+
+        //store reservation
+        Route::post('/',[ReservationController::class,'store'])->middleware(['role:renter', CheckUserActiveMiddleware::class]);
+
+        //all rents of a house
+        Route::get('/house/{house}',[ReservationController::class,'showReservationsOfHouse']);
+
+        //if owner all his reservation
+        //if renter all his rents
+        Route::get('/my-rents',[ReservationController::class,'myReservationsAndRents']);
+
+        //cancel reservation
+        Route::put('/cancel/{reservation}',[ReservationController::class,'cancelReservation'])->middleware(['role:renter', CheckUserActiveMiddleware::class]);
+
+        //reject reservation
+        Route::put('/reject/{reservation}',[ReservationController::class,'rejectReservation'])->middleware(['role:owner', CheckUserActiveMiddleware::class]);
+    });
+
+    Route::prefix("reviews")->group(function () {
+        Route::post("/",[ReviewController::class,"store"]);
+        Route::get("/check-if-can-rate/{house}",[ReviewController::class,"checkIfCanRate"]);
+    });
+
+    Route::prefix("favorites")->group(function () {
+        Route::post("/",[FavoriteController::class,"storeOrDelete"]);
+    });
+
 });
 
 
