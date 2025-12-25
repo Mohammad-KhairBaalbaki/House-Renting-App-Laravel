@@ -42,4 +42,8 @@ class House extends Model
     {
         return $this->hasMany(HouseImage::class);
     }
+    public function firstImage()
+    {
+        return $this->hasOne(HouseImage::class)->orderBy('id');
+}
 }
