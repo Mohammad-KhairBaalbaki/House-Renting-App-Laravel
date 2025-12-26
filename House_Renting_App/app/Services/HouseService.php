@@ -87,7 +87,7 @@ class HouseService
             $houses->withExists([
                 'favorites as is_favourite' => fn($q) => $q->where('user_id', $userId),
             ]);
-        } 
+        }
 
         $allowedSorts = ['rate', 'rent_value', 'space', 'rooms', 'created_at'];
         $sortBy = $request->input('sort_by', 'created_at');
@@ -139,6 +139,10 @@ class HouseService
             $address['longitude'] = $data['longitude'];
             $address['latitude'] = $data['latitude'];
         }
+        else{
+            $address['longitude'] = null;
+            $address['latitude'] = null;
+        }
 
         $address = $this->addressService->create($address);
         unset($data['governorate_id'], $data['city_id'], $data['street'], $data['flat_number'], $data['longitude'], $data['latitude']);
@@ -158,9 +162,10 @@ class HouseService
                 ]);
             }
         }
+
         $house = $house->fresh();
         $house->load(['user', 'address.city.governorate', 'status', 'favorites']);
-        return;
+        return $house;
 
     }
 
