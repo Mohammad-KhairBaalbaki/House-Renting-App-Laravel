@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Favorite;
+use App\Models\House;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteService
@@ -23,6 +24,15 @@ class FavoriteService
         }
         Favorite::create($data);
         return '2';
+    }
+
+    public function myFavorites(){
+        $houses = House::where('status_id',2)->whereHas('favorites',function($q){
+            $q->where('user_id',Auth::id());
+        })->get();
+
+
+        return $houses->load('address.city.governorate','status');
     }
 
 

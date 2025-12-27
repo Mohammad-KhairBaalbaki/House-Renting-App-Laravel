@@ -86,6 +86,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix("favorites")->group(function () {
+
+        Route::get('my-favorites',[FavoriteController::class,"myFavorites"]);
         Route::post("/",[FavoriteController::class,"storeOrDelete"]);
     });
 
