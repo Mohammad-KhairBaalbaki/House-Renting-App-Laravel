@@ -32,7 +32,7 @@ class FavoriteService
         })->get();
 
 
-        return $houses->load('address.city.governorate','status');
+        return $houses->load('address.city.governorate','status','images');
     }
 
 
