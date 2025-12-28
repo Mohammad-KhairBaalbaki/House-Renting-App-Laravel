@@ -22,7 +22,7 @@ class ReservationService
 
     public function index()
     {
-        $reservations = Reservation::with("house", "user", "status")->get();
+        $reservations = Reservation::with("house.images", "house.address.city.governorate", "user", "status")->get();
         return $reservations;
     }
     public function store(array $data)
@@ -40,7 +40,7 @@ class ReservationService
             'end_date' => $this->calculateEndDate($data['start_date'], $data['duration']),
             'status_id' => 1,
         ]);
-        return $reservation->load('house', 'user', 'status');
+        return $reservation->load('house.images', 'house.address.city.governorate', 'user', 'status');
     }
     public function update(array $data, Reservation $reservation)
     {
@@ -105,7 +105,7 @@ class ReservationService
     public function myRents()
     {
         $data = Reservation::where('user_id', Auth::id());
-        return $data->with('house.images', 'house.address', 'status')->get();
+        return $data->with('house.images', 'house.address.city.governorate', 'status')->get();
     }
 
     public function cancelReservation(Reservation $reservation)
@@ -123,7 +123,7 @@ class ReservationService
         $reservation->update(attributes: ['status_id' => 5]);
 
         $reservation->save();
-        return $reservation->load('house.images', 'house.address', 'status');
+        return $reservation->load('house.images', 'house.address.city.governorate', 'status');
     }
 
     public function rejectReservation(Reservation $reservation)
@@ -141,7 +141,7 @@ class ReservationService
         $reservation->update(attributes: ['status_id' => 3]);
 
         $reservation->save();
-        return $reservation->load('house.images', 'house.address', 'status');
+        return $reservation->load('house.images', 'house.address.city.governorate', 'status');
     }
 
     public function acceptReservation(Reservation $reservation)
