@@ -78,6 +78,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
         //reject reservation
         Route::put('/reject/{reservation}',[ReservationController::class,'rejectReservation'])->middleware(['role:owner', CheckUserActiveMiddleware::class]);
+
+        //accept resevation
+        Route::put('/accept/{reservation}',[ReservationController::class,'acceptReservation'])->middleware(['role:owner', CheckUserActiveMiddleware::class]);
     });
 
     Route::prefix("reviews")->group(function () {

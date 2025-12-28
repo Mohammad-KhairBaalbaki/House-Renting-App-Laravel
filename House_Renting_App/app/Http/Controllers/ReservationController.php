@@ -87,4 +87,17 @@ class ReservationController extends Controller
         }
         return $this->success(ReservationResource::make($data), 'Reservation rejected successfully');
     }
+
+    public function acceptReservation(Reservation $reservation)
+    {
+        $data = $this->reservationService->acceptReservation($reservation);
+        if ($data === '1') {
+            return $this->success(false, 'you cant accept this reservation because its not yours', 400);
+        } elseif ($data === '2') {
+            return $this->success(false, 'you cant accept this reservation because it is already accepted', 400);
+        } elseif ($data === '3') {
+            return $this->success(false, 'you cant accept this reservation because it has been rejected by yours', 400);
+        }
+        return $this->success(ReservationResource::make($data), 'Reservation accepted successfully',200);
+    }
 }
