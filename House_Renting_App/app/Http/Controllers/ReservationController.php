@@ -24,6 +24,9 @@ class ReservationController extends Controller
         $data = $this->reservationService->index();
         return $this->success(ReservationResource::collection($data), 'Reservations retrieved successfully');
     }
+    public function canRent(){
+        return $this->success(true, 'you can rent',200);
+    }
     public function store(StoreReservationRequest $request)
     {
         $data = $this->reservationService->store($request->validated());

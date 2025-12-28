@@ -63,6 +63,10 @@ Route::middleware('auth:sanctum')->group(function () {
         //all reservations
         Route::get('/',[ReservationController::class,'index']);
 
+
+        //check if can rent
+        Route::get('/can-rent',[ReservationController::class,'canRent'])->middleware(['role:renter', CheckUserActiveMiddleware::class]);
+
         //store reservation
         Route::post('/',[ReservationController::class,'store'])->middleware(['role:renter', CheckUserActiveMiddleware::class]);
 
