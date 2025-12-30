@@ -99,13 +99,14 @@ class ReservationService
                 $q->where('id', Auth::id());
             });
         });
-        return $data->with('house.images', 'house.address.city.governorate', 'status', 'user')->get();
+        return $data->with('house.images', 'house.address.city.governorate', 'status', 'user','house.status')->get();
     }
 
     public function myRents()
     {
         $data = Reservation::where('user_id', Auth::id());
-        return $data->with('house.images', 'house.address.city.governorate', 'status')->get();
+        return $data->with('house.images', 'house.address.city.governorate', 'status','house.status')->get();
+
     }
 
     public function cancelReservation(Reservation $reservation)
@@ -123,7 +124,7 @@ class ReservationService
         $reservation->update(attributes: ['status_id' => 5]);
 
         $reservation->save();
-        return $reservation->load('house.images', 'house.address.city.governorate', 'status');
+        return $reservation->load('house.images', 'house.address.city.governorate', 'status','house.status');
     }
 
     public function rejectReservation(Reservation $reservation)
@@ -138,10 +139,10 @@ class ReservationService
             return '3';
         }
         // $reservation->status_id = 3;
-        $reservation->update(attributes: ['status_id' => 3]);
+        $reservation->update( ['status_id' => 3]);
 
         $reservation->save();
-        return $reservation->load('house.images', 'house.address.city.governorate', 'status');
+        return $reservation->load('house.images', 'house.address.city.governorate', 'status','house.status');
     }
 
     public function acceptReservation(Reservation $reservation)
@@ -156,7 +157,7 @@ class ReservationService
             return '3';
         }
         // $reservation->status_id = 2;
-        $reservation->update(attributes: ['status_id' => 2]);
+        $reservation->update( ['status_id' => 2]);
         $reservation->save();
 
         // Reject all other PENDING reservations that overlap
@@ -168,6 +169,6 @@ class ReservationService
                     ->where('end_date', '>=', $reservation->start_date);
             })
             ->update(['status_id' => 3]); // rejected
-        return $reservation->load('house.images', 'house.address.city.governorate', 'status');
+        return $reservation->load('house.images', 'house.address.city.governorate', 'status','house.status');
     }
 }
