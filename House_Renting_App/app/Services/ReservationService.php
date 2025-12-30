@@ -53,7 +53,7 @@ class ReservationService
 
     public function showReservationsOfHouse(House $house)
     {
-        $data = $house->reservations->where('status_id', operator: 2)->load('user');
+        $data = $house->reservations->where('status_id', operator: 2)->load('user','status');
         return $data;
     }
 

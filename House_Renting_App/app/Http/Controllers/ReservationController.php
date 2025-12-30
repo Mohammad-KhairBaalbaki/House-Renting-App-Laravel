@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
+use App\Http\Resources\HouseResource;
 use App\Http\Resources\ReservationResource;
 use App\Models\House;
 use App\Models\Reservation;
