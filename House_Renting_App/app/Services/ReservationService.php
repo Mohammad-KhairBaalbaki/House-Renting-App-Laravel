@@ -156,7 +156,7 @@ class ReservationService
             return '3';
         }
         // $reservation->status_id = 2;
-        $reservation->update(attributes: ['status_id' => 2]);
+        $reservation->update( ['status_id' => 2]);
         $reservation->save();
 
         // Reject all other PENDING reservations that overlap
