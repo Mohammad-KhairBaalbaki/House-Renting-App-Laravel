@@ -99,13 +99,13 @@ class ReservationService
                 $q->where('id', Auth::id());
             });
         });
-        return $data->with('house.images', 'house.address.city.governorate', 'status', 'user')->get();
+        return $data->with('house.images', 'house.address.city.governorate', 'status', 'user','house.status')->get();
     }
 
     public function myRents()
     {
         $data = Reservation::where('user_id', Auth::id());
-        return $data->with('house.images', 'house.address', 'status')->get();
+        return $data->with('house.images', 'house.address.city.governorate', 'status','house.status')->get();
     }
 
     public function cancelReservation(Reservation $reservation)
