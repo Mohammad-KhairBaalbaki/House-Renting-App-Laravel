@@ -118,7 +118,6 @@ class HouseService
                 'address.city.governorate',
                 'status',
                 'images',
-                'favorites'
             ])
             ->get();
         return $houses;
