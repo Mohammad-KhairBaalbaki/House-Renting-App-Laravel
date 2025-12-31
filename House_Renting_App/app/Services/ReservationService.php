@@ -27,7 +27,7 @@ class ReservationService
     }
     public function store(array $data)
     {
-        if (Reservation::where('house_id', $data['house_id'])->where('start_date', $data['start_date'])->where('user_id', Auth::id())->exists()) {
+        if (Reservation::where('house_id', $data['house_id'])->where('start_date', $data['start_date'])->where('duration', $data['duration'])->where('status_id', 1)->where('user_id', Auth::id())->exists()) {
             return '1';
         } elseif (!($this->canReserve($data['house_id'], $data['start_date'], $this->calculateEndDate($data['start_date'], $data['duration'])))) {
             return '2';
@@ -53,7 +53,7 @@ class ReservationService
 
     public function showReservationsOfHouse(House $house)
     {
-        $data = $house->reservations->where('status_id', operator: 2)->load('user','status');
+        $data = $house->reservations->where('status_id', operator: 2)->load('user', 'status');
         return $data;
     }
 
@@ -99,13 +99,13 @@ class ReservationService
                 $q->where('id', Auth::id());
             });
         });
-        return $data->with('house.images', 'house.address.city.governorate', 'status', 'user','house.status')->get();
+        return $data->with('house.images', 'house.address.city.governorate', 'status', 'user', 'house.status')->get();
     }
 
     public function myRents()
     {
         $data = Reservation::where('user_id', Auth::id());
-        return $data->with('house.images', 'house.address.city.governorate', 'status','house.status')->get();
+        return $data->with('house.images', 'house.address.city.governorate', 'status', 'house.status')->get();
 
     }
 
@@ -124,7 +124,7 @@ class ReservationService
         $reservation->update(attributes: ['status_id' => 5]);
 
         $reservation->save();
-        return $reservation->load('house.images', 'house.address.city.governorate', 'status','house.status');
+        return $reservation->load('house.images', 'house.address.city.governorate', 'status', 'house.status');
     }
 
     public function rejectReservation(Reservation $reservation)
@@ -139,10 +139,10 @@ class ReservationService
             return '3';
         }
         // $reservation->status_id = 3;
-        $reservation->update( ['status_id' => 3]);
+        $reservation->update(['status_id' => 3]);
 
         $reservation->save();
-        return $reservation->load('house.images', 'house.address.city.governorate', 'status','house.status');
+        return $reservation->load('house.images', 'house.address.city.governorate', 'status', 'house.status');
     }
 
     public function acceptReservation(Reservation $reservation)
@@ -157,7 +157,7 @@ class ReservationService
             return '3';
         }
         // $reservation->status_id = 2;
-        $reservation->update( ['status_id' => 2]);
+        $reservation->update(['status_id' => 2]);
         $reservation->save();
 
         // Reject all other PENDING reservations that overlap
@@ -169,6 +169,6 @@ class ReservationService
                     ->where('end_date', '>=', $reservation->start_date);
             })
             ->update(['status_id' => 3]); // rejected
-        return $reservation->load('house.images', 'house.address.city.governorate', 'status','house.status');
+        return $reservation->load('house.images', 'house.address.city.governorate', 'status', 'house.status');
     }
 }
