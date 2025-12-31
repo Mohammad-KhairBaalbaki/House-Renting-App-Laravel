@@ -13,7 +13,7 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens, HasRoles;
-
+use Notifiable;
     /**
      * The attributes that are mass assignable.
      *
@@ -92,5 +92,8 @@ public function idImage()
 {
     return $this->hasOne(UserImage::class)->where('type', 'id_image');
 }
-
+public function devices()
+{
+    return $this->hasMany(\App\Models\UserDevice::class);
+}
 }
