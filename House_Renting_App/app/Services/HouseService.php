@@ -24,7 +24,9 @@ class HouseService
         $userId = $request->user('sanctum')?->id; // or auth('sanctum')->id()
         $houses = House::with('address.city.governorate', 'reviews', 'images', 'favorites')
             ->where('is_active', true)
-            ->where('status_id', 2);
+            ->where('status_id', 2)->whereHas('user', function ($q)  {
+                $q->where('status_id', 2);
+            });
 
         if ($search = $request->input('search')) {
             $houses->where(function ($q) use ($search) {
