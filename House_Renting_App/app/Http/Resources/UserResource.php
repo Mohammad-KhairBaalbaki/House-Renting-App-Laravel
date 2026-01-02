@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'phone'=>$this->phone,
             'role'=>$this->whenLoaded('roles',fn()=>$this->roles->pluck('name')->first()),
             'date_of_birth'=>$this->date_of_birth,
+            'status'=>$this->whenLoaded('status',fn()=>$this->status->type),
             'profile_image'=>$this->whenLoaded('images', fn()=>ImageResource::make($this->images->where('type','profile_image')->first())),
             'id_image'=>$this->whenLoaded('images', fn()=>ImageResource::make($this->images->where('type','id_image')->first())),
             // 'created_at'=>$this->created_at,
