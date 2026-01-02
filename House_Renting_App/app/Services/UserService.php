@@ -19,17 +19,17 @@ class UserService
     public function show()
     {
         $user = User::where("id", Auth::id())->first();
-        return $user->load('roles');
+        return $user->load('roles', 'images','status');
     }
     public function update(array $request)
     {
-        $password=$request["current_password"];
+        $password = $request["current_password"];
         $user = User::where("id", Auth::id())->first();
-        
-         if (isset($request['new_password']) && $request['new_password']) {
-        $request['password'] = Hash::make($request['new_password']);
-        unset($request['new_password']);
-    }
+
+        if (isset($request['new_password']) && $request['new_password']) {
+            $request['password'] = Hash::make($request['new_password']);
+            unset($request['new_password']);
+        }
         $user->update($request);
 
         if (isset($request['profile_image'])) {
