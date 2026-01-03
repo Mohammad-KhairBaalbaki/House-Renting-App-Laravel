@@ -21,30 +21,42 @@ class ReservationObserver
      * Handle the Reservation "updated" event.
      */
     public function updated(Reservation $reservation): void
-    {
-$reservation->user->notify(new ReservationStatusAccept($reservation)); 
+{
+    if (! $reservation->wasChanged('status_id')) {
+        return;
+    }
 
-// 2) FCM (اختياري) — اشتغل بس إذا ENABLE_FCM=true
-if (env('ENABLE_FCM') === true || env('ENABLE_FCM') === 'true') {
-    try {
-        $tokens = $reservation->user->devices()->pluck('token')->toArray();
+    $reservation->load('status', 'house', 'user');
 
-        app(\App\Services\FcmService::class)->sendToTokens(
-            $tokens,
-            'Reservation Update',
-            'Your reservation status is now: ' . ($reservation->status?->type ?? ''),
-            [
-                'type' => 'reservation_status_changed',
-                'reservation_id' => (string) $reservation->id,
-                'status' => (string) ($reservation->status?->type ?? ''),
-            ]
-        );
-    } catch (\Throwable $e) {
-        Log::error('FCM failed', ['error' => $e->getMessage()]);
+    if (! $reservation->user) {
+        return;
+    }
+
+    $reservation->user->notify(new ReservationStatusAccept($reservation));
+
+    if (env('ENABLE_FCM') === true || env('ENABLE_FCM') === 'true') {
+        try {
+            $tokens = $reservation->user->devices()->pluck('token')->toArray();
+
+            app(FcmService::class)->sendToTokens(
+                $tokens,
+                'Reservation Update',
+                'Your reservation status is now: ' . ($reservation->status?->type ?? ''),
+                [
+                    'type' => 'reservation_status_changed',
+                    'reservation_id' => (string) $reservation->id,
+                    'status' => (string) ($reservation->status?->type ?? ''),
+                ]
+            );
+        } catch (\Throwable $e) {
+            Log::error('FCM failed', [
+                'reservation_id' => $reservation->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }
 
-}
 
     /**
      * Handle the Reservation "deleted" event.
