@@ -105,9 +105,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/unread-count', [NotificationController::class, 'unreadCount']);
     Route::post('/{id}/read', [NotificationController::class, 'markAsRead']);
     Route::post('/read-all', [NotificationController::class, 'markAllAsRead']);
-    Route::post('/device-token', [DeviceTokenController::class, 'store']);
 
 });
+    Route::post('/device-token', [DeviceTokenController::class, 'store']);
+
 });
 
 
