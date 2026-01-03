@@ -18,7 +18,7 @@ class ReservationStatusAccept extends Notification
     protected $reservation;
     public function __construct(Reservation $reservation)
     {
-       $this->reservation=$reservation;
+        $this->reservation = $reservation;
     }
 
     /**
@@ -48,18 +48,22 @@ class ReservationStatusAccept extends Notification
      * @return array<string, mixed>
      */
     public function toDatabase($notifiable)
-{
-     $status = $this->reservation->status?->type ?? 'unknown';
-    return [
-        'type' => 'reservation_status_changed',
+    {
+        $status = $this->reservation->status?->type ?? 'unknown';
+        $now = now();
+        return [
+            'type' => 'reservation_status_changed',
             'reservation_id' => $this->reservation->id,
             'house_id' => $this->reservation->house_id,
             'status' => $status,
+            "house" => $this->reservation->house?->title,
+            'date' => $now->toDateString(),
+            'time' => $now->format('H:i'),
             'title' => $this->titleByStatus($status),
             'message' => $this->messageByStatus($status),
-    ];
-}
-private function messageByStatus(string $status): string
+        ];
+    }
+    private function messageByStatus(string $status): string
     {
         return match ($status) {
             'accepted' => 'Your reservation has been accepted by the owner.',
@@ -68,7 +72,7 @@ private function messageByStatus(string $status): string
             default => "Reservation status changed to: {$status}",
         };
     }
-      private function titleByStatus(string $status): string
+    private function titleByStatus(string $status): string
     {
         return match ($status) {
             'accepted' => 'Reservation Accepted',
