@@ -10,12 +10,15 @@ class FcmService
 {
     protected $messaging;
 
-    public function __construct()
-    {
-        $this->messaging = (new Factory)
-            ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
-            ->createMessaging();
-    }
+   public function __construct()
+{
+    $this->messaging = (new Factory)
+        ->withServiceAccount(
+            storage_path('app/firebase/service-account.json')
+        )
+        ->createMessaging();
+}
+
 
     public function sendToTokens(array $tokens, string $title, string $body, array $data = []): void
     {
