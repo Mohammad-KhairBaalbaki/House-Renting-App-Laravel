@@ -13,6 +13,9 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    'fcm' => [
+    'enabled' => env('ENABLE_FCM', false),
+],
 
     
     'fcm' => [
