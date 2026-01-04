@@ -13,7 +13,6 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Middleware\CheckUserActiveMiddleware;
 use App\Http\Controllers\UserController;
-use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

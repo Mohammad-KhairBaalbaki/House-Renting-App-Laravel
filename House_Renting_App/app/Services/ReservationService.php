@@ -53,8 +53,15 @@ class ReservationService
 
     public function showReservationsOfHouse(House $house)
     {
-        $data = $house->reservations->where('status_id', operator: 2)->load('user', 'status');
-        return $data;
+        $house->reservations()
+            ->where('status_id', 2)
+            ->where('end_date', '<', now())
+            ->update(['status_id' => 6]);
+
+        return $house->reservations()
+            ->where('status_id', 2)->orWhere('status_id', 6)
+            ->with(['user', 'status'])
+            ->get();
     }
 
     private function calculateEndDate(string|Carbon $startDate, int $durationMonths): Carbon
@@ -94,6 +101,10 @@ class ReservationService
 
     public function myReservations()
     {
+        Reservation::where('status_id', 2)
+            ->where('end_date', '<', now())
+            ->update(['status_id' => 6]);
+
         $data = Reservation::whereHas('house', function ($query) {
             $query->whereHas('user', function ($q) {
                 $q->where('id', Auth::id());
@@ -104,6 +115,10 @@ class ReservationService
 
     public function myRents()
     {
+        Reservation::where('status_id', 2)
+            ->where('end_date', '<', now())
+            ->update(['status_id' => 6]);
+            
         $data = Reservation::where('user_id', Auth::id());
         return $data->with('house.images', 'house.address.city.governorate', 'status', 'house.status')->get();
 
