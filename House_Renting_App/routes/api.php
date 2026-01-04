@@ -3,9 +3,12 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\changeLanguageController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\DeviceTokenController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\GovernorateController;
 use App\Http\Controllers\HouseController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Middleware\CheckUserActiveMiddleware;
@@ -96,8 +99,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post("/",[FavoriteController::class,"storeOrDelete"]);
     });
 
-});
+    Route::prefix('notifications')->group(function () {
+    Route::get('/', [NotificationController::class, 'index']);
+    Route::get('/unread-count', [NotificationController::class, 'unreadCount']);
+    Route::post('/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::post('/read-all', [NotificationController::class, 'markAllAsRead']);
 
+});
+    Route::post('/device-token', [DeviceTokenController::class, 'store']);
+
+});
 
 
 
