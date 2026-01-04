@@ -30,7 +30,7 @@ class ReviewController extends Controller
         }
         if($data === '2')
         {
-            return $this->success(false,'You Cannot Rate This House Because You Didnt Reserve It Yet',400);
+            return $this->success(false,'You Cannot Rate This House Because You Didnt Try It Yet',400);
         }
         return $this->success($data,'Review Created Successfully',200);
     }
