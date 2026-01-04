@@ -34,7 +34,7 @@ class ReservationObserver
 
     $reservation->user->notify(new ReservationStatusAccept($reservation));
 
-    if (env('ENABLE_FCM') === true || env('ENABLE_FCM') === 'true') {
+if (filter_var(env('ENABLE_FCM', false), FILTER_VALIDATE_BOOLEAN)) {
         try {
             $tokens = $reservation->user->devices()->pluck('token')->toArray();
 
