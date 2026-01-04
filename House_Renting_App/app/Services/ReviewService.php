@@ -34,7 +34,7 @@ class ReviewService
     }
 
     public function checkIfReserved(House $house , User $user){
-        return $house->reservations()->where('user_id' , $user->id)->where('status_id',2)->exists() && $house->user_id != $user->id;
+        return $house->reservations()->where('user_id' , $user->id)->where('status_id',6)->exists() && $house->user_id != $user->id;
     }
 
     public function checkIfReviewdOnce(House $house , User $user){
