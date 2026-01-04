@@ -3,7 +3,6 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\changeLanguageController;
-use App\Http\Controllers\CityController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\GovernorateController;
 use App\Http\Controllers\HouseController;
@@ -11,7 +10,6 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Middleware\CheckUserActiveMiddleware;
 use App\Http\Controllers\UserController;
-use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

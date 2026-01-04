@@ -21,6 +21,7 @@ class StatusSeed extends Seeder
             ["type" => "rejected"],
             ["type" => "blocked"],
             ["type" => "canceled"],
+            ["type" => "previous"],
         ]);
     }
 }
