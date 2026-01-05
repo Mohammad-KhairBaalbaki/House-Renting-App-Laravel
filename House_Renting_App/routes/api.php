@@ -45,7 +45,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', 'index')->withoutMiddleware('auth:sanctum');
         Route::post('/', 'store')->middleware(['role:owner', CheckUserActiveMiddleware::class]);
         Route::get('/{id}', 'show')->withoutMiddleware('auth:sanctum');
+
         Route::put('/{house}', 'update')->middleware(['role:owner', CheckUserActiveMiddleware::class]);
+        
         Route::delete('/{id}', 'destroy')->middleware(['role:owner', CheckUserActiveMiddleware::class]);
     });
 

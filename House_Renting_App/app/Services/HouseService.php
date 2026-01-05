@@ -120,6 +120,7 @@ class HouseService
                 'address.city.governorate',
                 'status',
                 'images',
+                'reviews'
             ])
             ->get();
         return $houses;
