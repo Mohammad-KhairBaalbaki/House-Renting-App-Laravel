@@ -31,7 +31,10 @@ class ReservationController extends Controller
     public function store(StoreReservationRequest $request)
     {
         $data = $this->reservationService->store($request->validated());
-        if ($data === '1') {
+        if($data === '3'){
+            return $this->success(false,'you cant reserve house before today',400);
+        }
+        elseif ($data === '1') {
             return $this->success(false, 'you have already requested to rent this house at this time', 400);
         } elseif ($data === '2') {
             return $this->success(false, 'This house is busy at this time', 400);

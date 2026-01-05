@@ -27,6 +27,10 @@ class ReservationService
     }
     public function store(array $data)
     {
+        $date = Carbon::now()->toDate()->format('Y-m-d');
+        if($data['start_date'] < $date){
+            return '3';
+        }
         if (Reservation::where('house_id', $data['house_id'])->where('start_date', $data['start_date'])->where('duration', $data['duration'])->where('status_id', 1)->where('user_id', Auth::id())->exists()) {
             return '1';
         } elseif (!($this->canReserve($data['house_id'], $data['start_date'], $this->calculateEndDate($data['start_date'], $data['duration'])))) {
@@ -118,7 +122,7 @@ class ReservationService
         Reservation::where('status_id', 2)
             ->where('end_date', '<', now())
             ->update(['status_id' => 6]);
-            
+
         $data = Reservation::where('user_id', Auth::id());
         return $data->with('house.images', 'house.address.city.governorate', 'status', 'house.status')->get();
 
