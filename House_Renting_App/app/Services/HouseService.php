@@ -104,7 +104,7 @@ class HouseService
         }
 
         if ($sortBy === 'rate') {
-            $houses->withAvg('reviews as avg_rating', 'rating')
+            $houses->withAvg('reviews as avg_rating', 'rating')->having('avg_rating', '>=', 1)
                 ->orderByRaw('COALESCE(avg_rating, 0) ' . strtoupper($sortDir));
         } else {
             $houses->orderBy($sortBy, $sortDir);
