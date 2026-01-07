@@ -959,6 +959,81 @@ body.admin-auth-bg .btn-lg-soft{
 .badge-rejected{ background: rgba(220,53,69,.15); color: #dc3545; }
 .badge-pending{ background: rgba(255,193,7,.18); color: #b58100; }
 
+/* Reservation list cards */
+.res-card{
+  display:flex;
+  gap:14px;
+  padding:14px;
+  border-radius:16px;
+  border:1px solid rgba(0,0,0,.06);
+  background:#fff;
+  transition: transform .08s ease, box-shadow .08s ease;
+}
+.res-card:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.06);
+}
+
+.res-thumb{
+  width:92px;
+  height:92px;
+  border-radius:14px;
+  overflow:hidden;
+  flex:0 0 92px;
+  background: rgba(154,201,230,.18);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.res-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+.res-meta{ flex:1; min-width:0; }
+.res-title{ font-weight:900; margin:0; line-height:1.2; }
+.res-sub{ color:#6c757d; font-size:.86rem; }
+
+.res-grid{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap:10px;
+  margin-top:10px;
+}
+.res-k{ padding:10px; border-radius:14px; background: rgba(154,201,230,.10); }
+.res-k .k{ color:#6c757d; font-size:.78rem; margin-bottom:2px; }
+.res-k .v{ font-weight:900; }
+
+@media (max-width: 992px){
+  .res-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 520px){
+  .res-card{ flex-direction:column; }
+  .res-thumb{ width:100%; height:170px; flex:auto; }
+  .res-grid{ grid-template-columns: 1fr; }
+}
+
+/* nicer filters */
+.filter-bar .form-control,
+.filter-bar .form-select{
+  height:44px;
+  border-radius:14px;
+}
+.filter-bar .btn{
+  height:44px;
+  border-radius:14px;
+}
+
+/* status pills */
+.status-pill{
+  padding:.35rem .7rem;
+  border-radius:999px;
+  font-weight:900;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid rgba(0,0,0,.06);
+}
+.status-accepted{ background:rgba(25,135,84,.15); color:#198754; }
+.status-rejected{ background:rgba(220,53,69,.15); color:#dc3545; }
+.status-pending{ background:rgba(255,193,7,.18); color:#b58100; }
 
 
 

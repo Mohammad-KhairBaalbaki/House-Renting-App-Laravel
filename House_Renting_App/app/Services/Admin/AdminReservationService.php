@@ -72,6 +72,6 @@ class AdminReservationService
             $q->orderBy($sortBy, $sortDir);
         }
 
-        return $q->paginate(15)->withQueryString();
+        return $q->paginate(10)->withQueryString();
     }
 }

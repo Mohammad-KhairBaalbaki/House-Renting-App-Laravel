@@ -89,60 +89,93 @@
 </div>
 
 <div class="kpi reveal delay-3">
-  <div class="table-responsive">
-    <table class="table align-middle mb-0">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>User</th>
-          <th>House</th>
-          <th>Dates</th>
-          <th>Days</th>
-          <th>Rent</th>
-          <th>Status</th>
-          <th>Created</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
+  <div class="kpi reveal delay-3">
+  <div class="p-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <div class="fw-bold">Results</div>
+      <div class="text-muted small">{{ $reservations->total() }} reservations</div>
+    </div>
+
+    <div class="d-grid gap-3">
       @forelse($reservations as $r)
         @php
           $u = $r->user;
           $h = $r->house;
+          $st = strtolower($r->status?->type ?? '');
+          $pill = match($st){
+            'accepted' => 'status-accepted',
+            'rejected' => 'status-rejected',
+            default => 'status-pending',
+          };
+
+          $thumb = $h?->firstImage?->url ?? ($h?->images?->first()?->url ?? null);
         @endphp
-        <tr>
-          <td class="fw-bold">#{{ $r->id }}</td>
-          <td>
-            <div class="fw-bold">{{ $u?->first_name }} {{ $u?->last_name }}</div>
-            <div class="text-muted small">{{ $u?->phone }}</div>
-          </td>
-          <td>
-            <div class="fw-bold">{{ $h?->title }}</div>
-            <div class="text-muted small">{{ $h?->rent_value }}</div>
-          </td>
-          <td class="small">
-            <div><strong>Start:</strong> {{ $r->start_date }}</div>
-            <div><strong>End:</strong> {{ $r->end_date }}</div>
-          </td>
-          <td>{{ $r->duration }}</td>
-          <td>{{ $h?->rent_value }}</td>
-          <td><span class="badge-pill badge-a">{{ $r->status?->type ?? '-' }}</span></td>
-          <td class="small text-muted">{{ $r->created_at?->format('Y-m-d H:i') }}</td>
-          <td class="text-end">
-            <a class="btn btn-outline-dark btn-sm" href="{{ route('admin.reservations.show', $r) }}">
-              <i class="bi bi-eye"></i> View
-            </a>
-          </td>
-        </tr>
+
+        <div class="res-card">
+          <div class="res-thumb">
+            @if($thumb)
+              <img src="{{ asset('storage/'.$thumb) }}" alt="house">
+            @else
+              <i class="bi bi-house-door" style="font-size:28px; opacity:.6;"></i>
+            @endif
+          </div>
+
+          <div class="res-meta">
+            <div class="d-flex justify-content-between align-items-start gap-2">
+              <div style="min-width:0;">
+                <p class="res-title text-truncate mb-1">
+                  #{{ $r->id }} — {{ $h?->title ?? 'House' }}
+                </p>
+                <div class="res-sub text-truncate">
+                  User: <strong>{{ $u?->first_name }} {{ $u?->last_name }}</strong>
+                  <span class="mx-1">•</span>
+                  {{ $u?->phone }}
+                </div>
+              </div>
+
+              <div class="text-end">
+                <span class="status-pill {{ $pill }}">{{ $r->status?->type ?? '-' }}</span>
+                <div class="text-muted small mt-2">{{ $r->created_at?->format('Y-m-d H:i') }}</div>
+              </div>
+            </div>
+
+            <div class="res-grid">
+              <div class="res-k">
+                <div class="k">Start</div>
+                <div class="v">{{ \Carbon\Carbon::parse($r->start_date)->format('Y-m-d') }}</div>
+              </div>
+              <div class="res-k">
+                <div class="k">End</div>
+                <div class="v">{{ \Carbon\Carbon::parse($r->end_date)->format('Y-m-d') }}</div>
+              </div>
+              <div class="res-k">
+                <div class="k">Duration</div>
+                <div class="v">{{ $r->duration }}</div>
+              </div>
+              <div class="res-k">
+                <div class="k">Rent</div>
+                <div class="v">{{ $h?->rent_value ?? '-' }}</div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end mt-3">
+              <a class="btn btn-outline-dark btn-sm" href="{{ route('admin.reservations.show', $r) }}">
+                <i class="bi bi-eye"></i> View
+              </a>
+            </div>
+          </div>
+        </div>
       @empty
-        <tr>
-          <td colspan="9" class="text-center text-muted py-4">No reservations found.</td>
-        </tr>
+        <div class="text-center text-muted py-4">No reservations found.</div>
       @endforelse
-      </tbody>
-    </table>
+    </div>
   </div>
 </div>
+
+<div class="mt-3">
+  {{ $reservations->links() }}
+</div>
+
 
 <div class="mt-3">
   {{ $reservations->links() }}
