@@ -28,6 +28,10 @@ class UserController extends Controller
     }
     public function delete(DeleteUserRequest $request){
         $user=$this->userservice->delete($request);
+        if(!$user)
+        {
+            return $this->success(false,"you can't delete your account because there are others reserved one of your houses !",400);
+        }
         return $this->success("","deleted succes");
 
     }

@@ -19,7 +19,7 @@ class UserService
     public function show()
     {
         $user = User::where("id", Auth::id())->first();
-        return $user->load('roles', 'images','status');
+        return $user->load('roles', 'images', 'status');
     }
     public function update(array $request)
     {
@@ -56,6 +56,12 @@ class UserService
     public function delete($request)
     {
         $user = User::where("id", Auth::id())->first();
+        if ($user->hasRole('owner') && $user->houses()
+                ->whereHas('reservations', fn($q) => $q->where('status_id', 2))
+                ->exists()
+        ) {
+            return false;
+        }
         $user->tokens()->delete();
         return $user->delete();
 
