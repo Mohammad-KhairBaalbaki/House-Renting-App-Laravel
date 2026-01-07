@@ -29,6 +29,12 @@
   <span>Houses</span>
   <small>Manage</small>
 </a>
+<a class="nav-item {{ request()->routeIs('admin.reservations.*') ? 'active' : '' }}"
+   href="{{ route('admin.reservations.index') }}">
+  <span>Reservations</span>
+  <small>Browse</small>
+</a>
+
 
 
   

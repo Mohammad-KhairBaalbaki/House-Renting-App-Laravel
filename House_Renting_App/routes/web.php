@@ -2,6 +2,7 @@
 
 // routes/web.php
 use App\Http\Controllers\Admin\AdminHouseController;
+use App\Http\Controllers\Admin\AdminReservationController;
 use App\Http\Controllers\Admin\Auth\AdminLoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -26,6 +27,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::patch('/houses/{house}/status', [AdminHouseController::class, 'updateStatus'])->name('houses.status');
 Route::patch('/houses/{house}/city', [AdminHouseController::class, 'updateCity'])
   ->name('houses.city');
+
+  Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
+Route::get('/reservations/{reservation}', [AdminReservationController::class, 'show'])->name('reservations.show');
 
     });
 
