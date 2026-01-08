@@ -29,6 +29,7 @@ class CitySeeder extends Seeder
                 ['en'=>'Al-Mazraa',          'ar'=>'المزارع'],
             ],
             'Rural Damascus' => [
+                ['en'=>'Other',           'ar'=>'غير ذلك'],
                 ['en'=>'Douma',         'ar'=>'دوما'],
                 ['en'=>'Al-Tall',       'ar'=>'التل'],
                 ['en'=>'Al-Qutayfah',   'ar'=>'القطيفة'],
@@ -92,7 +93,7 @@ class CitySeeder extends Seeder
                 ['en'=>'Sukhnah',     'ar'=>'سخنة'],
             ],
             'Al-Hasakah' => [
-                ['en'=>'Al-Other', 'ar'=>'غير ذلك'],
+                ['en'=>'Other', 'ar'=>'غير ذلك'],
                 ['en'=>'Qamishli',   'ar'=>'القامشلي'],
                 ['en'=>'Al-Malikiyah','ar'=>'المالكية'],
                 ['en'=>'Ras al-Ain', 'ar'=>'رأس العين'],
