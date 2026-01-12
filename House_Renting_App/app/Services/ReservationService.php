@@ -114,7 +114,7 @@ class ReservationService
                 $q->where('id', Auth::id());
             });
         });
-        return $data->with('house.images', 'house.address.city.governorate', 'status', 'user', 'house.status')->get();
+        return $data->orderBy('created_at', 'desc')->with('house.images', 'house.address.city.governorate', 'status', 'user', 'house.status')->get();
     }
 
     public function myRents()
@@ -124,7 +124,7 @@ class ReservationService
             ->update(['status_id' => 6]);
 
         $data = Reservation::where('user_id', Auth::id());
-        return $data->with('house.images', 'house.address.city.governorate', 'status', 'house.status')->get();
+        return $data->orderBy('created_at', 'desc')->with('house.images', 'house.address.city.governorate', 'status', 'house.status')->get();
 
     }
 
@@ -142,7 +142,6 @@ class ReservationService
         // $reservation->status_id = 5;
         $reservation->update(attributes: ['status_id' => 5]);
 
-        $reservation->save();
         return $reservation->load('house.images', 'house.address.city.governorate', 'status', 'house.status');
     }
 
@@ -160,7 +159,6 @@ class ReservationService
         // $reservation->status_id = 3;
         $reservation->update(['status_id' => 3]);
 
-        $reservation->save();
         return $reservation->load('house.images', 'house.address.city.governorate', 'status', 'house.status');
     }
 
@@ -177,7 +175,6 @@ class ReservationService
         }
         // $reservation->status_id = 2;
         $reservation->update(['status_id' => 2]);
-        $reservation->save();
 
         // Reject all other PENDING reservations that overlap
         Reservation::where('house_id', $reservation->house_id)
