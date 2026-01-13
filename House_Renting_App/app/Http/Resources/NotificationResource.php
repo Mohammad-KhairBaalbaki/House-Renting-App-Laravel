@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,7 +17,7 @@ class NotificationResource extends JsonResource
         return [
             'type' => $data['type'] ?? null,
 
-           // 'status' => $status,
+            // 'status' => $status,
 
             'status' => $status
                 ? __('notifications.status_' . $status)
@@ -35,8 +36,16 @@ class NotificationResource extends JsonResource
             'reservation_id' => $data['reservation_id'] ?? null,
             'house_id' => $data['house_id'] ?? null,
 
-            'read_at' => $this->read_at,
-            'created_at' => $this->created_at,
+           'date' => $this->created_at
+    ? Carbon::parse($this->read_at)->format('Y-m-d')
+    : null,
+
+'time' => $this->created_at
+    ? Carbon::parse($this->read_at)->format('H:i')
+    : null,
+
+
+
         ];
     }
 }
