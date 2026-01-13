@@ -42,8 +42,8 @@ class ReservationObserver
 
                 app(FcmService::class)->sendToTokens(
                     $tokens,
-                    'Reservation Update',
-                    'Your reservation status is  ' . ($reservation->status?->type ?? ''),
+                    'Reservation Updated',
+                    'Your reservation status is ' . ($reservation->status?->type ?? ''),
                     [
                         'type' => 'reservation_status_changed',
                         'reservation_id' => (string) $reservation->id,
