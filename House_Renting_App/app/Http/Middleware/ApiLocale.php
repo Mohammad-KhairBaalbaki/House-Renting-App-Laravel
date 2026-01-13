@@ -8,19 +8,15 @@ use Illuminate\Support\Facades\App;
 
 class ApiLocale
 {
-    public function handle(Request $request, Closure $next)
+   public function handle($request, Closure $next)
     {
-        $locale = $request->query('lang');
+        $locale = $request->header('Accept-Language', 'en');
 
-        if (! $locale) {
-            $locale = $request->header('Accept-Language');
+        if (! in_array($locale, ['en', 'ar'])) {
+            $locale = 'en';
         }
 
-        if (! in_array($locale, ['ar', 'en'])) {
-            $locale = config('app.locale', 'en'); 
-        }
-
-        App::setLocale($locale);
+        app()->setLocale($locale);
 
         return $next($request);
     }

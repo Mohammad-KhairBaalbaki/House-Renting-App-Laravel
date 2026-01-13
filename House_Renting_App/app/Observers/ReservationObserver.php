@@ -21,41 +21,49 @@ class ReservationObserver
      * Handle the Reservation "updated" event.
      */
     public function updated(Reservation $reservation): void
-    {
-        if (!$reservation->wasChanged('status_id')) {
-            return;
-        }
+{
+    if (! $reservation->wasChanged('status_id')) {
+        return;
+    }
 
-        $reservation->load('status', 'house', 'user');
+    $reservation->load('status', 'house', 'user');
 
-        if (!$reservation->user) {
-            return;
-        }
+    $receiver = $reservation->user;
+    if (! $receiver) {
+        return;
+    }
 
-        $reservation->user->notify(new ReservationStatusAccept($reservation));
+    $receiver->notify(new ReservationStatusAccept($reservation));
 
-        if (filter_var(env('ENABLE_FCM', false), FILTER_VALIDATE_BOOLEAN)) {
-            try {
-                $tokens = $reservation->user->devices()->pluck('token')->toArray();
+    if (filter_var(env('ENABLE_FCM', false), FILTER_VALIDATE_BOOLEAN)) {
+        try {
+            $tokens = $receiver->devices()->pluck('token')->toArray();
 
-                app(FcmService::class)->sendToTokens(
-                    $tokens,
-                    'Reservation Update',
-                    'Your reservation status is now: ' . ($reservation->status?->type ?? ''),
-                    [
-                        'type' => 'reservation_status_changed',
-                        'reservation_id' => (string) $reservation->id,
-                        'status' => (string) ($reservation->status?->type ?? ''),
-                    ]
-                );
-            } catch (\Throwable $e) {
-                Log::error('FCM failed', [
-                    'reservation_id' => $reservation->id,
-                    'error' => $e->getMessage(),
-                ]);
-            }
+            $locale = $receiver->locale ?? 'en';
+            $status = $reservation->status?->type ?? 'unknown';
+
+            $title = __('notifications.reservation_title', [], $locale);
+            $body  = __('notifications.reservation_body_'.$status, [], $locale);
+
+            app(FcmService::class)->sendToTokens(
+                $tokens,
+                $title,
+                $body,
+                [
+                    'type' => 'reservation_status_changed',
+                    'reservation_id' => (string) $reservation->id,
+                    'status' => (string) $status,
+                ]
+            );
+        } catch (\Throwable $e) {
+            Log::error('FCM failed', [
+                'reservation_id' => $reservation->id,
+                'error' => $e->getMessage(),
+            ]);
         }
     }
+}
+
 
 
     /**

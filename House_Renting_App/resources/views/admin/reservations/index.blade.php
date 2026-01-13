@@ -45,19 +45,10 @@
     </div>
 
     <div class="col-lg-2">
-      <label class="form-label small text-muted mb-1">Start To</label>
+      <label class="form-label small text-muted mb-1">To</label>
       <input type="date" class="form-control" name="start_to" value="{{ request('start_to') }}">
     </div>
 
-    <div class="col-lg-2">
-      <label class="form-label small text-muted mb-1">Min Days</label>
-      <input type="number" class="form-control" name="min_duration" value="{{ request('min_duration') }}">
-    </div>
-
-    <div class="col-lg-2">
-      <label class="form-label small text-muted mb-1">Max Days</label>
-      <input type="number" class="form-control" name="max_duration" value="{{ request('max_duration') }}">
-    </div>
 
     <div class="col-lg-2">
       <label class="form-label small text-muted mb-1">Sort</label>

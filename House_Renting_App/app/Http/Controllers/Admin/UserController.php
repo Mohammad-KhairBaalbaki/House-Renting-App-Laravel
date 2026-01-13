@@ -23,7 +23,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = $this->adminuserServic->list($request->only(['q','status_id']));
-        $statuses = Status::orderBy('id')->get();
+        $statuses = Status::whereNot("id",5)->whereNot("id",6)->orderBy('id')->get();
 
         return view('admin.users.index', compact('users','statuses'));
     }
