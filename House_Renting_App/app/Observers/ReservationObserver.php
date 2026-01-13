@@ -36,25 +36,20 @@ class ReservationObserver
     $receiver->notify(new ReservationStatusAccept($reservation));
 
     if (filter_var(env('ENABLE_FCM', false), FILTER_VALIDATE_BOOLEAN)) {
-        try {
-            $tokens = $receiver->devices()->pluck('token')->toArray();
+       
+            try {
+                $tokens = $reservation->user->devices()->pluck('token')->toArray();
 
-            $locale = $receiver->locale ?? 'en';
-            $status = $reservation->status?->type ?? 'unknown';
-
-            $title = __('notifications.reservation_title', [], $locale);
-            $body  = __('notifications.reservation_body_'.$status, [], $locale);
-
-            app(FcmService::class)->sendToTokens(
-                $tokens,
-                $title,
-                $body,
-                [
-                    'type' => 'reservation_status_changed',
-                    'reservation_id' => (string) $reservation->id,
-                    'status' => (string) $status,
-                ]
-            );
+                app(FcmService::class)->sendToTokens(
+                    $tokens,
+                    'Reservation Update',
+                    'Your reservation status is  ' . ($reservation->status?->type ?? ''),
+                    [
+                        'type' => 'reservation_status_changed',
+                        'reservation_id' => (string) $reservation->id,
+                        'status' => (string) ($reservation->status?->type ?? ''),
+                    ]
+                );
         } catch (\Throwable $e) {
             Log::error('FCM failed', [
                 'reservation_id' => $reservation->id,
@@ -62,7 +57,7 @@ class ReservationObserver
             ]);
         }
     }
-}
+    }
 
 
 
