@@ -109,7 +109,7 @@ class HouseService
         } else {
             $houses->orderBy($sortBy, $sortDir);
         }
-        return $houses->paginate(5);
+        return $houses->paginate(10);
     }
 
     public function myHouses()
