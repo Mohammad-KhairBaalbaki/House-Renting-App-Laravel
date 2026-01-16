@@ -6,6 +6,7 @@
 <div class="d-flex align-items-center justify-content-between mb-3 reveal delay-1">
   <div>
     <h2 class="mb-1" style="font-weight:950;">Cities</h2>
+    <div class="text-muted">Manage cities (create + list)</div>
   </div>
 
   <a class="btn btn-lg-soft btn-sm" href="{{ route('admin.cities.create') }}">
@@ -62,6 +63,7 @@
           <th>City (EN)</th>
           <th>City (AR)</th>
           <th>Governorate (EN)</th>
+          <th>Governorate (AR)</th>
           <th>Created</th>
         </tr>
       </thead>
