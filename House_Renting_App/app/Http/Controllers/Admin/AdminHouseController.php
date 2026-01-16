@@ -27,7 +27,7 @@ class AdminHouseController extends Controller
         'sort_by','sort_dir'
     ]));
 
-    $statuses = Status::orderBy('id')->get();
+    $statuses = Status::whereNot("id",5)->whereNot("id",6)->orderBy('id')->get();
     $governorates = Governorate::orderBy('id')->get();
     $cities = City::orderBy('id')->get(); 
 

@@ -34,6 +34,18 @@
   <span>Reservations</span>
   <small>Browse</small>
 </a>
+<a class="nav-item {{ request()->routeIs('admin.reservations.*') ? 'active' : '' }}"
+   href="{{ route('admin.reservations.index') }}">
+  <span>Reservations</span>
+  <small>Browse</small>
+</a>
+
+<a class="nav-item {{ request()->routeIs('admin.cities.*') ? 'active' : '' }}"
+   href="{{ route('admin.cities.index') }}">
+  <span>Cities</span>
+  <small>Manage</small>
+</a>
+
 
 
 

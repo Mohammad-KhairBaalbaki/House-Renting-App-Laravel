@@ -1,6 +1,7 @@
 <?php
 
 // routes/web.php
+use App\Http\Controllers\Admin\AdminCityController;
 use App\Http\Controllers\Admin\AdminHouseController;
 use App\Http\Controllers\Admin\AdminReservationController;
 use App\Http\Controllers\Admin\Auth\AdminLoginController;
@@ -30,6 +31,12 @@ Route::patch('/houses/{house}/city', [AdminHouseController::class, 'updateCity']
 
   Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
 Route::get('/reservations/{reservation}', [AdminReservationController::class, 'show'])->name('reservations.show');
+
+// Cities (Admin)
+Route::get('/cities', [AdminCityController::class, 'index'])->name('cities.index');
+Route::get('/cities/create', [AdminCityController::class, 'create'])->name('cities.create');
+Route::post('/cities', [AdminCityController::class, 'store'])->name('cities.store');
+
 
     });
 
