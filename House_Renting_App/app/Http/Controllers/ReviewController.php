@@ -19,34 +19,30 @@ class ReviewController extends Controller
     public function index()
     {
         $data = $this->reviewService->index();
-        return $this->success($data,'Reviews Retrieved Successfully',200);
+        return $this->success($data, 'Reviews Retrieved Successfully', 200);
     }
     public function store(StoreReviewRequest $request)
     {
         $data = $this->reviewService->store($request->validated());
-        if($data === '1')
-        {
-            return $this->success(false,'You Cannot Rate This House Because You have already rated It',400);
+        if ($data === '1') {
+            return $this->success(false, 'You Cannot Rate This House Because You have already rated It', 400);
         }
-        if($data === '2')
-        {
-            return $this->success(false,'You Cannot Rate This House Because You Didnt Try It Yet',400);
+        if ($data === '2') {
+            return $this->success(false, 'You Cannot Rate This House Because You Didnt Try It Yet', 400);
         }
-        return $this->success($data,'Review Created Successfully',200);
+        return $this->success($data, 'Review Created Successfully', 200);
     }
 
-    public function checkIfCanRate(House $house){
-        $data1 = $this->reviewService->checkIfReserved($house , Auth::user());
-        $data2 = $this->reviewService->checkIfReviewdOnce($house , Auth::user());
-        if(!$data1)
-        {
-            return $this->success(false,'You Cannot Rate This House Because You Didnt Reserve It Yet',400);
+    public function checkIfCanRate(House $house)
+    {
+        $data1 = $this->reviewService->checkIfReserved($house, Auth::user());
+        $data2 = $this->reviewService->checkIfReviewdOnce($house, Auth::user());
+        if (!$data1) {
+            return $this->success(false, 'You Cannot Rate This House Because You Didnt Reserve It Yet', 400);
+        } elseif ($data2) {
+            return $this->success(false, 'You Cannot Rate This House Because You have already rated It', 400);
         }
-        elseif($data2)
-        {
-            return $this->success(false,'You Cannot Rate This House Because You have already rated It',400);
-        }
-        return $this->success(true,'you can rate this house ',200);
+        return $this->success(true, 'you can rate this house ', 200);
     }
 
 

@@ -22,14 +22,14 @@ class AdminReservationService
 
             $q->where(function ($qq) use ($term) {
                 $qq->where('id', $term)
-                  ->orWhereHas('user', function ($u) use ($term) {
-                      $u->where('phone', 'like', "%{$term}%")
-                        ->orWhere('first_name', 'like', "%{$term}%")
-                        ->orWhere('last_name', 'like', "%{$term}%");
-                  })
-                  ->orWhereHas('house', function ($h) use ($term) {
-                      $h->where('title', 'like', "%{$term}%");
-                  });
+                    ->orWhereHas('user', function ($u) use ($term) {
+                        $u->where('phone', 'like', "%{$term}%")
+                            ->orWhere('first_name', 'like', "%{$term}%")
+                            ->orWhere('last_name', 'like', "%{$term}%");
+                    })
+                    ->orWhereHas('house', function ($h) use ($term) {
+                        $h->where('title', 'like', "%{$term}%");
+                    });
             });
         }
 
@@ -45,29 +45,31 @@ class AdminReservationService
         }
 
         if (!empty($filters['min_duration'])) {
-            $q->where('duration', '>=', (int)$filters['min_duration']);
+            $q->where('duration', '>=', (int) $filters['min_duration']);
         }
         if (!empty($filters['max_duration'])) {
-            $q->where('duration', '<=', (int)$filters['max_duration']);
+            $q->where('duration', '<=', (int) $filters['max_duration']);
         }
 
         if (!empty($filters['min_rent'])) {
-            $q->whereHas('house', fn($h) => $h->where('rent_value', '>=', (float)$filters['min_rent']));
+            $q->whereHas('house', fn($h) => $h->where('rent_value', '>=', (float) $filters['min_rent']));
         }
         if (!empty($filters['max_rent'])) {
-            $q->whereHas('house', fn($h) => $h->where('rent_value', '<=', (float)$filters['max_rent']));
+            $q->whereHas('house', fn($h) => $h->where('rent_value', '<=', (float) $filters['max_rent']));
         }
 
         $allowedSorts = ['created_at', 'start_date', 'end_date', 'rent_value'];
-        $sortBy  = $filters['sort_by']  ?? 'created_at';
+        $sortBy = $filters['sort_by'] ?? 'created_at';
         $sortDir = strtolower($filters['sort_dir'] ?? 'desc');
-        if (!in_array($sortBy, $allowedSorts)) $sortBy = 'created_at';
-        if (!in_array($sortDir, ['asc','desc'])) $sortDir = 'desc';
+        if (!in_array($sortBy, $allowedSorts))
+            $sortBy = 'created_at';
+        if (!in_array($sortDir, ['asc', 'desc']))
+            $sortDir = 'desc';
 
         if ($sortBy === 'rent_value') {
             $q->join('houses', 'reservations.house_id', '=', 'houses.id')
-              ->select('reservations.*')
-              ->orderBy('houses.rent_value', $sortDir);
+                ->select('reservations.*')
+                ->orderBy('houses.rent_value', $sortDir);
         } else {
             $q->orderBy($sortBy, $sortDir);
         }

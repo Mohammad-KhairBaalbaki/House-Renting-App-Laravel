@@ -22,13 +22,13 @@ class UpdateAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cities_id'   => 'sometimes|exists:cities,id',
-            'street'      => 'sometimes|string',
+            'cities_id' => 'sometimes|exists:cities,id',
+            'street' => 'sometimes|string',
 
             'flat_number' => 'sometimes|integer',
 
-            'longitide'   => 'sometimes|numeric|nullable',
-            'latitide'    => 'sometimes|numeric|nullable',
+            'longitide' => 'sometimes|numeric|nullable',
+            'latitide' => 'sometimes|numeric|nullable',
         ];
     }
 }

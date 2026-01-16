@@ -28,7 +28,7 @@ class ReservationService
     public function store(array $data)
     {
         $date = Carbon::now()->toDate()->format('Y-m-d');
-        if($data['start_date'] < $date){
+        if ($data['start_date'] < $date) {
             return '3';
         }
         if (Reservation::where('house_id', $data['house_id'])->where('start_date', $data['start_date'])->where('duration', $data['duration'])->where('status_id', 1)->where('user_id', Auth::id())->exists()) {

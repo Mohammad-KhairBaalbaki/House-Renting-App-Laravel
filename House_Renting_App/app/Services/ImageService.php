@@ -19,10 +19,8 @@ class ImageService
     {
         $filename = Str::uuid() . '.' . $file->extension();
 
-        // Store in a secure disk (e.g. local "public" or other)
         $path = $file->storeAs($path, $filename, 'public');
 
-        // Optionally set visibility (if not default)
         Storage::disk('public')->setVisibility($path, 'public');
 
         return $path;

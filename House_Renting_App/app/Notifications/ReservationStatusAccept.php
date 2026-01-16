@@ -48,28 +48,28 @@ class ReservationStatusAccept extends Notification
      * @return array<string, mixed>
      */
     public function toDatabase($notifiable)
-{
-    $status = $this->reservation->status?->type ?? 'unknown';
-    $now = now();
+    {
+        $status = $this->reservation->status?->type ?? 'unknown';
+        $now = now();
 
-    return [
-        'type' => 'reservation_status_changed',
-        'reservation_id' => $this->reservation->id,
-        'house_id' => $this->reservation->house_id,
-        'status' => $status,
-        'house' => $this->reservation->house?->title,
-
-        'date' => $now->toDateString(),
-        'time' => $now->format('H:i'),
-
-        'title_key' => 'notifications.reservation_title',
-        'message_key' => 'notifications.reservation_body_'.$status,
-        'params' => [
+        return [
+            'type' => 'reservation_status_changed',
+            'reservation_id' => $this->reservation->id,
+            'house_id' => $this->reservation->house_id,
             'status' => $status,
             'house' => $this->reservation->house?->title,
-        ],
-    ];
-}
+
+            'date' => $now->toDateString(),
+            'time' => $now->format('H:i'),
+
+            'title_key' => 'notifications.reservation_title',
+            'message_key' => 'notifications.reservation_body_' . $status,
+            'params' => [
+                'status' => $status,
+                'house' => $this->reservation->house?->title,
+            ],
+        ];
+    }
 
     private function messageByStatus(string $status): string
     {

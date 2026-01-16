@@ -13,7 +13,7 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens, HasRoles;
-use Notifiable;
+    use Notifiable;
     /**
      * The attributes that are mass assignable.
      *
@@ -46,15 +46,18 @@ use Notifiable;
         return $this->hasMany(UserImage::class);
     }
 
-    public function reservations(){
+    public function reservations()
+    {
         return $this->hasMany(Reservation::class);
     }
 
-    public function reviews(){
+    public function reviews()
+    {
         return $this->hasMany(Review::class);
     }
 
-    public function favorites(){
+    public function favorites()
+    {
         return $this->hasMany(Favorite::class);
     }
 
@@ -84,16 +87,16 @@ use Notifiable;
         ];
     }
     public function profileImage()
-{
-    return $this->hasOne(UserImage::class)->where('type', 'profile_image');
-}
+    {
+        return $this->hasOne(UserImage::class)->where('type', 'profile_image');
+    }
 
-public function idImage()
-{
-    return $this->hasOne(UserImage::class)->where('type', 'id_image');
-}
-public function devices()
-{
-    return $this->hasMany(\App\Models\UserDevice::class);
-}
+    public function idImage()
+    {
+        return $this->hasOne(UserImage::class)->where('type', 'id_image');
+    }
+    public function devices()
+    {
+        return $this->hasMany(\App\Models\UserDevice::class);
+    }
 }

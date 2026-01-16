@@ -21,7 +21,7 @@ class Reservation extends Model
     {
         return [
             'start_date' => 'date:Y-m-d', // "2005-03-13"
-            'end_date'   => 'date:Y-m-d',
+            'end_date' => 'date:Y-m-d',
         ];
     }
 

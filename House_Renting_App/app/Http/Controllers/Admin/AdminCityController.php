@@ -16,11 +16,11 @@ class AdminCityController extends Controller
 
         $cities = City::query()
             ->with('governorate')
-            ->when($governorateId, fn ($qr) => $qr->where('governorate_id', $governorateId))
+            ->when($governorateId, fn($qr) => $qr->where('governorate_id', $governorateId))
             ->when($q !== '', function ($qr) use ($q) {
                 $qr->where(function ($w) use ($q) {
                     $w->where('name->en', 'like', "%{$q}%")
-                      ->orWhere('name->ar', 'like', "%{$q}%");
+                        ->orWhere('name->ar', 'like', "%{$q}%");
                 });
             })
             ->orderBy('id', 'asc')
@@ -42,8 +42,8 @@ class AdminCityController extends Controller
     {
         $data = $request->validate([
             'governorate_id' => ['required', 'integer', 'exists:governorates,id'],
-            'name_ar'        => ['required', 'string', 'max:255'],
-            'name_en'        => ['required', 'string', 'max:255'],
+            'name_ar' => ['required', 'string', 'max:255'],
+            'name_en' => ['required', 'string', 'max:255'],
         ]);
 
         City::create([

@@ -43,19 +43,22 @@ class House extends Model
         return $this->hasMany(HouseImage::class);
     }
 
-    public function reservations(){
+    public function reservations()
+    {
         return $this->hasMany(Reservation::class);
     }
 
-    public function reviews(){
+    public function reviews()
+    {
         return $this->hasMany(Review::class);
     }
 
-    public function favorites(){
+    public function favorites()
+    {
         return $this->hasMany(Favorite::class);
     }
     public function firstImage()
     {
         return $this->hasOne(HouseImage::class)->orderBy('id');
-}
+    }
 }

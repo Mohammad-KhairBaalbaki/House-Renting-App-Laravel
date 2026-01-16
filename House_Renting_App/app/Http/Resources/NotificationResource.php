@@ -36,13 +36,13 @@ class NotificationResource extends JsonResource
             'reservation_id' => $data['reservation_id'] ?? null,
             'house_id' => $data['house_id'] ?? null,
 
-           'date' => $this->created_at
-    ? Carbon::parse($this->read_at)->format('Y-m-d')
-    : null,
+            'date' => $this->created_at
+                ? Carbon::parse($this->read_at)->format('Y-m-d')
+                : null,
 
-'time' => $this->created_at
-    ? Carbon::parse($this->read_at)->format('H:i')
-    : null,
+            'time' => $this->created_at
+                ? Carbon::parse($this->read_at)->format('H:i')
+                : null,
 
 
 

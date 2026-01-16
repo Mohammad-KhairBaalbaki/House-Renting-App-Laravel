@@ -16,23 +16,25 @@ class FavoriteService
         //
     }
 
-    public function storeOrDelete(array $data){
+    public function storeOrDelete(array $data)
+    {
         $data['user_id'] = Auth::id();
-        if(Favorite::where('house_id' , $data['house_id'])->where('user_id' , $data['user_id'])->exists()){
-            Favorite::where('house_id' , $data['house_id'])->where('user_id' , $data['user_id'])->delete();
+        if (Favorite::where('house_id', $data['house_id'])->where('user_id', $data['user_id'])->exists()) {
+            Favorite::where('house_id', $data['house_id'])->where('user_id', $data['user_id'])->delete();
             return '1';
         }
         Favorite::create($data);
         return '2';
     }
 
-    public function myFavorites(){
-        $houses = House::where('status_id',2)->whereHas('favorites',function($q){
-            $q->where('user_id',Auth::id());
+    public function myFavorites()
+    {
+        $houses = House::where('status_id', 2)->whereHas('favorites', function ($q) {
+            $q->where('user_id', Auth::id());
         })->get();
 
 
-        return $houses->load('address.city.governorate','status','images');
+        return $houses->load('address.city.governorate', 'status', 'images');
     }
 
 

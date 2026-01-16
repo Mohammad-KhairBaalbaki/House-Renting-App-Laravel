@@ -21,10 +21,10 @@ class HouseService
 
     public function index($request)
     {
-        $userId = $request->user('sanctum')?->id; // or auth('sanctum')->id()
+        $userId = $request->user('sanctum')?->id;
         $houses = House::with('address.city.governorate', 'reviews', 'images', 'favorites')
             ->where('is_active', true)
-            ->where('status_id', 2)->whereHas('user', function ($q)  {
+            ->where('status_id', 2)->whereHas('user', function ($q) {
                 $q->where('status_id', 2);
             });
 
@@ -140,8 +140,7 @@ class HouseService
         if (isset($data['longitude']) && isset($data['latitude'])) {
             $address['longitude'] = $data['longitude'];
             $address['latitude'] = $data['latitude'];
-        }
-        else{
+        } else {
             $address['longitude'] = null;
             $address['latitude'] = null;
         }

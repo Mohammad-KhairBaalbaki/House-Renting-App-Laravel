@@ -24,7 +24,7 @@ class UserSeed extends Seeder
             "phone" => "0943675436",
             "password" => Hash::make("12345678"),
             "date_of_birth" => "2000-01-01",
-            "status_id"=>2
+            "status_id" => 2
         ]);
 
         $renter = User::create([

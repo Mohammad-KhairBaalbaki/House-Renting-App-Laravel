@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserDevice extends Model
 {
-protected $fillable = ['user_id', 'token', 'platform', 'last_seen_at'];
+    protected $fillable = ['user_id', 'token', 'platform', 'last_seen_at'];
 
-    public function user() { return $this->belongsTo(User::class); }}
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+}

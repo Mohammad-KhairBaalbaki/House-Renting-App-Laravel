@@ -15,16 +15,16 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
-    -> 
+    ->
     withMiddleware(function (Middleware $middleware): void {
-      
+
         $middleware->alias([
             'admin' => CheckAdmin::class,
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class
         ]);
-         
+
         //
         $middleware->api(
             append: [
@@ -42,11 +42,6 @@ return Application::configure(basePath: dirname(__DIR__))
                     'data' => null,
                 ], 404);
             }
-
-            // For web routes - return custom view
-            // return response()->view('errors.404', [
-            //     'message' => 'Page not found',
-            // ], 404);
         });
         $exceptions->render(function (UnauthorizedException $e, Request $request) {
             if ($request->expectsJson()) {

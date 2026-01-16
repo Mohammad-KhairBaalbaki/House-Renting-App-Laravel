@@ -21,22 +21,22 @@ class ReservationObserver
      * Handle the Reservation "updated" event.
      */
     public function updated(Reservation $reservation): void
-{
-    if (! $reservation->wasChanged('status_id')) {
-        return;
-    }
+    {
+        if (!$reservation->wasChanged('status_id')) {
+            return;
+        }
 
-    $reservation->load('status', 'house', 'user');
+        $reservation->load('status', 'house', 'user');
 
-    $receiver = $reservation->user;
-    if (! $receiver) {
-        return;
-    }
+        $receiver = $reservation->user;
+        if (!$receiver) {
+            return;
+        }
 
-    $receiver->notify(new ReservationStatusAccept($reservation));
+        $receiver->notify(new ReservationStatusAccept($reservation));
 
-    if (filter_var(env('ENABLE_FCM', false), FILTER_VALIDATE_BOOLEAN)) {
-       
+        if (filter_var(env('ENABLE_FCM', false), FILTER_VALIDATE_BOOLEAN)) {
+
             try {
                 $tokens = $reservation->user->devices()->pluck('token')->toArray();
 
@@ -50,13 +50,13 @@ class ReservationObserver
                         'status' => (string) ($reservation->status?->type ?? ''),
                     ]
                 );
-        } catch (\Throwable $e) {
-            Log::error('FCM failed', [
-                'reservation_id' => $reservation->id,
-                'error' => $e->getMessage(),
-            ]);
+            } catch (\Throwable $e) {
+                Log::error('FCM failed', [
+                    'reservation_id' => $reservation->id,
+                    'error' => $e->getMessage(),
+                ]);
+            }
         }
-    }
     }
 
 

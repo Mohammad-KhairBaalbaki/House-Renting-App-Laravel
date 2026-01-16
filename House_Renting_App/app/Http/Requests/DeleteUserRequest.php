@@ -27,7 +27,7 @@ class DeleteUserRequest extends FormRequest
         ];
     }
 
-public function withValidator($validator)
+    public function withValidator($validator)
     {
         $validator->after(function ($validator) {
 

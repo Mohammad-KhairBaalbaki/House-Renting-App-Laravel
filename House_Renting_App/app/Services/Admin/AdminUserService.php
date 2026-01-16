@@ -17,20 +17,20 @@ class AdminUserService
     public function list(array $filters = [])
     {
         $q = User::query()
-            ->with(['roles','status','profileImage','idImage'])
+            ->with(['roles', 'status', 'profileImage', 'idImage'])
             ->latest();
 
         if (!empty($filters['q'])) {
             $term = $filters['q'];
-            $q->where(function($qq) use ($term){
-                $qq->where('first_name','like',"%$term%")
-                   ->orWhere('last_name','like',"%$term%")
-                   ->orWhere('phone','like',"%$term%");
+            $q->where(function ($qq) use ($term) {
+                $qq->where('first_name', 'like', "%$term%")
+                    ->orWhere('last_name', 'like', "%$term%")
+                    ->orWhere('phone', 'like', "%$term%");
             });
         }
 
         if (!empty($filters['status_id'])) {
-            $q->where('status_id', (int)$filters['status_id']);
+            $q->where('status_id', (int) $filters['status_id']);
         }
 
         return $q->paginate(10)->withQueryString();
@@ -40,6 +40,6 @@ class AdminUserService
     {
         $status = Status::findOrFail($statusId);
         $user->update(['status_id' => $status->id]);
-        return $user->fresh(['roles','status','profileImage','idImage']);
+        return $user->fresh(['roles', 'status', 'profileImage', 'idImage']);
     }
 }

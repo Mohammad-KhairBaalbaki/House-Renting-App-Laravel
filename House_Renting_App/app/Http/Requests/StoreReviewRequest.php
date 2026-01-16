@@ -23,7 +23,7 @@ class StoreReviewRequest extends FormRequest
     {
         return [
             'house_id' => 'required|exists:houses,id',
-            'rating'=>'required|numeric|min:1|max:5',
+            'rating' => 'required|numeric|min:1|max:5',
         ];
     }
 }

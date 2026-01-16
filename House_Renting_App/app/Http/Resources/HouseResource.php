@@ -26,7 +26,7 @@ class HouseResource extends JsonResource
             'rooms' => $this->rooms,
             'space' => $this->space,
             'is_active' => $this->is_active,
-            'is_favorited' =>$this->whenLoaded('favorites',fn()=>(int) ($this->is_favourite ?? 0)),
+            'is_favorited' => $this->whenLoaded('favorites', fn() => (int) ($this->is_favourite ?? 0)),
             'rating' => $this->whenLoaded(
                 'reviews',
                 fn() => (float) $this->reviews->avg('rating')

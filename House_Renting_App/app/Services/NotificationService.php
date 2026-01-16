@@ -11,13 +11,14 @@ class NotificationService
     {
         //
     }
-    public function index($request){
- $user = $request->user();
+    public function index($request)
+    {
+        $user = $request->user();
 
         $notifications = $user->notifications()
             ->orderByDesc('created_at')
             ->paginate(20);
-            return $notifications;
+        return $notifications;
 
     }
 }

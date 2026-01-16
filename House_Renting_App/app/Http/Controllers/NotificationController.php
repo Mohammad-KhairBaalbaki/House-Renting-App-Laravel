@@ -8,17 +8,17 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-  protected $notificationservice;
+    protected $notificationservice;
     public function __construct(NotificationService $notificationservice)
     {
         $this->notificationservice = $notificationservice;
     }
-     public function index(Request $request)
+    public function index(Request $request)
     {
-        $notifications =$this->notificationservice->index($request);
+        $notifications = $this->notificationservice->index($request);
         return $this->success(NotificationResource::collection($notifications), 'Notifications retrieved successfully');
     }
-     public function unreadCount(Request $request)
+    public function unreadCount(Request $request)
     {
         $count = $request->user()->unreadNotifications()->count();
         return $this->success(['unread_count' => $count], 'Unread count retrieved');

@@ -17,9 +17,9 @@ class DeviceTokenController extends Controller
         $user = $request->user();
 
         UserDevice::updateOrCreate(
-            ['token' => $data['token']], 
+            ['token' => $data['token']],
             [
-                'user_id' => $user->id,              
+                'user_id' => $user->id,
                 'platform' => $data['platform'] ?? null,
                 'last_seen_at' => now(),
             ]

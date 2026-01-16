@@ -1,4 +1,4 @@
-<?php 
+<?php
 return [
     'title_accepted' => 'تم قبول الحجز',
     'title_rejected' => 'تم رفض الحجز',

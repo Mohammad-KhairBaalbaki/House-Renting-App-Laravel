@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
-use App\Http\Resources\HouseResource;
 use App\Http\Resources\ReservationResource;
 use App\Models\House;
 use App\Models\Reservation;
 use App\Services\ReservationService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
@@ -25,16 +23,16 @@ class ReservationController extends Controller
         $data = $this->reservationService->index();
         return $this->success(ReservationResource::collection($data), 'Reservations retrieved successfully');
     }
-    public function canRent(){
-        return $this->success(true, 'you can rent',200);
+    public function canRent()
+    {
+        return $this->success(true, 'you can rent', 200);
     }
     public function store(StoreReservationRequest $request)
     {
         $data = $this->reservationService->store($request->validated());
-        if($data === '3'){
-            return $this->success(false,'you cant reserve house before today',400);
-        }
-        elseif ($data === '1') {
+        if ($data === '3') {
+            return $this->success(false, 'you cant reserve house before today', 400);
+        } elseif ($data === '1') {
             return $this->success(false, 'you have already requested to rent this house at this time', 400);
         } elseif ($data === '2') {
             return $this->success(false, 'This house is busy at this time', 400);
@@ -105,6 +103,6 @@ class ReservationController extends Controller
         } elseif ($data === '3') {
             return $this->success(false, 'you cant accept this reservation because it has been rejected by yours', 400);
         }
-        return $this->success(ReservationResource::make($data), 'Reservation accepted successfully',200);
+        return $this->success(ReservationResource::make($data), 'Reservation accepted successfully', 200);
     }
 }

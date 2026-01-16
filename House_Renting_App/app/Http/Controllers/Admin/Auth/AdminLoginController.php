@@ -10,8 +10,9 @@ use Illuminate\Http\Request;
 
 class AdminLoginController extends Controller
 {
-    public function __construct(protected AdminAuthService $adminAuthService) {
-        $this->adminAuthService=$adminAuthService;
+    public function __construct(protected AdminAuthService $adminAuthService)
+    {
+        $this->adminAuthService = $adminAuthService;
     }
 
     public function show()
@@ -35,6 +36,6 @@ class AdminLoginController extends Controller
     public function logout(Request $request)
     {
         $this->adminAuthService->logout($request);
-        return redirect()->route('admin.login.show');
+        return redirect()->route('login.show');
     }
 }
